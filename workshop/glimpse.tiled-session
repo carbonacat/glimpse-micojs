@@ -23,7 +23,11 @@
             }
         },
         "maps/Leaf.tmx#Tiles": {
+            "dynamicWrapping": false,
             "scaleInDock": 4
+        },
+        "maps/Objects.tsx": {
+            "dynamicWrapping": true
         },
         "tiles/Tiles.tsx": {
             "dynamicWrapping": false,
@@ -31,8 +35,8 @@
             "scaleInEditor": 5.5
         }
     },
-    "last.exportedFilePath": "/Users/carbonacat/Documents/c-prod/projects/glimpse/glimpse-workshop/maps",
-    "last.imagePath": "/Users/carbonacat/Documents/c-prod/projects/glimpse/glimpse-workshop/exports/Maps",
+    "last.exportedFilePath": "/Users/carbonacat/Documents/c-prod/projects/glimpse/glimpse-micojs/micojs-project/maps",
+    "last.imagePath": "/Users/carbonacat/Documents/c-prod/projects/glimpse/glimpse-micojs/workshop/objects",
     "map.fixedSize": true,
     "map.height": 32,
     "map.lastUsedExportFilter": "JSON map files (*.tmj *.json)",

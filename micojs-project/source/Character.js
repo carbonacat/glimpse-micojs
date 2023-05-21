@@ -1,18 +1,28 @@
 // Character.js
 
+const CHARACTER_RADIUS = 2;
+
 class Character
 {
-    constructor(initX, initY)
+    constructor(initX, initY, scene)
     {
-        this._x = initX;
-        this._y = initY;
+        this.x = initX;
+        this.y = initY;
+
+        this._lastA = A;
+        this._acting = false;
+
         this._subAnimIndex = 0;
         this._mirrored = false;
         this._leftLegIndex = 0;
         this._rightLegIndex = 0;
+        scene.addRenderItem(this);
+        scene.addUpdateItem(this);
     }
 
-    update()
+    // LIFECYCLE.
+
+    update(scene)
     {
         let subAnimIndex = this._subAnimIndex;
         let rightLegIndex = this._rightLegIndex;
@@ -75,54 +85,95 @@ class Character
         this._subAnimIndex = subAnimIndex;
         this._rightLegIndex = rightLegIndex;
         this._leftLegIndex = leftLegIndex;
+
+        
+        if (A != this._lastA)
+        {
+            this._lastA = A;
+            this._acting = A;
+        }
+        else
+            this._acting = false;
     }
+
+    onDoorNearby(door)
+    {
+        if (!door.isOpened())
+        {
+            // TODO: Door collision might be more for Door.js.
+            const relY = door.y - this.y;
+
+            if (abs(relY) < DOOR_RADIUS_Y + CHARACTER_RADIUS)
+            {
+                if (relY < 0) this.y++;
+                else this.y--;
+            }
+        }
+        if (this._acting)
+        {
+            door.setOpened(!door.isOpened());
+            this._acting = false;
+        }
+    }
+
+
+    // RENDERING.
 
     render()
     {
-        const x = this._x;
-        const y = this._y;
-        const leftLegIndex = this._leftLegIndex;
-        const rightLegIndex = this._rightLegIndex;
-
         setPen(0);
         setMirrored(this._mirrored);
-        image(CharacterLegs[leftLegIndex], x + this._mirroredXOffset(+1), y - 3);
-        image(CharacterLegs[rightLegIndex], x + this._mirroredXOffset(-1), y - 3);
-        image(CharacterArms[rightLegIndex], x + this._mirroredXOffset(1), y - 10 + TorsoYOffset[rightLegIndex]);
-        image(R.CharacterTorso, x + this._mirroredXOffset(1), y - 9 + TorsoYOffset[leftLegIndex]);
-        image(R.CharacterHeads, x, y - 16 + HeadYOffset[leftLegIndex]);
-        image(CharacterArms[leftLegIndex], x + this._mirroredXOffset(-1), y - 10 + TorsoYOffset[leftLegIndex]);
+        image(CharacterLegs[this._leftLegIndex], this.x + this._mirroredXOffset(+1), this.y - 3);
+        image(CharacterLegs[this._rightLegIndex], this.x + this._mirroredXOffset(-1), this.y - 3);
+        image(CharacterArms[this._rightLegIndex], this.x + this._mirroredXOffset(1), this.y - 10 + TorsoYOffset[this._rightLegIndex]);
+        image(R.CharacterTorso, this.x + this._mirroredXOffset(1), this.y - 9 + TorsoYOffset[this._leftLegIndex]);
+        image(R.CharacterHeads, this.x, this.y - 16 + HeadYOffset[this._leftLegIndex]);
+        image(CharacterArms[this._leftLegIndex], this.x + this._mirroredXOffset(-1), this.y - 10 + TorsoYOffset[this._leftLegIndex]);
     }
+
+
+    // TOOLS.
 
     _updateMovement()
     {
         let walking = false;
 
         {
-            let x = this._x;
-            let y = this._y;
+            let x = this.x;
+            let y = this.y;
 
             if (LEFT)
             {
                 x--;
+                if (getTileProperty(x - CHARACTER_RADIUS, y - CHARACTER_RADIUS, "collides") ||
+                    getTileProperty(x - CHARACTER_RADIUS, y + CHARACTER_RADIUS, "collides"))
+                    x++;
                 this._mirrored = true;
             }
             if (RIGHT)
             {
                 x++;
+                if (getTileProperty(x + CHARACTER_RADIUS, y - CHARACTER_RADIUS, "collides") ||
+                    getTileProperty(x + CHARACTER_RADIUS, y + CHARACTER_RADIUS, "collides"))
+                    x--;
                 this._mirrored = false;
             }
-            if (getTileProperty(x, y, "collides"))
-                x = this._x;
-            else
-                this._x = x;
-
-            if (UP) y--;
-            if (DOWN) y++;
-            if (getTileProperty(x, y, "collides"))
-                y = this._y
-            else
-                this._y = y;
+            if (UP)
+            {
+                y--;
+                if (getTileProperty(x + CHARACTER_RADIUS, y - CHARACTER_RADIUS, "collides") ||
+                    getTileProperty(x - CHARACTER_RADIUS, y - CHARACTER_RADIUS, "collides"))
+                    y++;
+            }
+            if (DOWN)
+            {
+                y++;
+                if (getTileProperty(x + CHARACTER_RADIUS, y + CHARACTER_RADIUS, "collides") ||
+                    getTileProperty(x - CHARACTER_RADIUS, y + CHARACTER_RADIUS, "collides"))
+                    y--;
+            }
+            this.x = x;
+            this.y = y;
             walking = LEFT || RIGHT || UP || DOWN;
         }
         return walking;
