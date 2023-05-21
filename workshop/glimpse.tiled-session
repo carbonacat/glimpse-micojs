@@ -14,12 +14,15 @@
         "": {
             "scaleInEditor": 16
         },
+        "maps/Black.tmx#Tiles": {
+            "dynamicWrapping": false
+        },
         "maps/Leaf.tmx": {
-            "scale": 4,
-            "selectedLayer": 0,
+            "scale": 5.5,
+            "selectedLayer": 1,
             "viewCenter": {
-                "x": 93.75,
-                "y": 41.875
+                "x": 110.63636363636364,
+                "y": 89.36363636363636
             }
         },
         "maps/Leaf.tmx#Tiles": {

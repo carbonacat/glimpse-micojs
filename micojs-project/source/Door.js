@@ -2,7 +2,7 @@
 
 const DOOR_INTERACTION_DISTANCE = 8;
 const DOOR_TO_STATUS_Y = 24;
-const DOOR_RADIUS_Y = 3;
+const DOOR_RADIUS_Y = 1;
 
 class Door
 {
@@ -34,6 +34,9 @@ class Door
 
     render()
     {
+        // For the area.
+        // setPen(255, 0, 0);
+        // rect(this.x - 8, this.y - DOOR_RADIUS_Y, 16, DOOR_RADIUS_Y * 2);
         this._render(this.x, this.y);
         if (this._canBeInteractedWith)
             image(R.Buttons1, this.x, this.y - DOOR_TO_STATUS_Y - ticker_4);

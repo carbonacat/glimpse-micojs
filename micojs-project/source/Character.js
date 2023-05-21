@@ -1,6 +1,6 @@
 // Character.js
 
-const CHARACTER_RADIUS = 2;
+const CHARACTER_RADIUS = 3;
 
 class Character
 {
@@ -105,7 +105,7 @@ class Character
 
             if (abs(relY) < DOOR_RADIUS_Y + CHARACTER_RADIUS)
             {
-                if (relY < 0) this.y++;
+                if (relY <= 0) this.y++;
                 else this.y--;
             }
         }
@@ -121,59 +121,126 @@ class Character
 
     render()
     {
+        // For the area.
+        // setPen(128, 128, 128);
+        // rect(this.x - 3, this.y - 3, 7, 7);
         setPen(0);
         setMirrored(this._mirrored);
-        image(CharacterLegs[this._leftLegIndex], this.x + this._mirroredXOffset(+1), this.y - 3);
-        image(CharacterLegs[this._rightLegIndex], this.x + this._mirroredXOffset(-1), this.y - 3);
-        image(CharacterArms[this._rightLegIndex], this.x + this._mirroredXOffset(1), this.y - 10 + TorsoYOffset[this._rightLegIndex]);
-        image(R.CharacterTorso, this.x + this._mirroredXOffset(1), this.y - 9 + TorsoYOffset[this._leftLegIndex]);
-        image(R.CharacterHeads, this.x, this.y - 16 + HeadYOffset[this._leftLegIndex]);
-        image(CharacterArms[this._leftLegIndex], this.x + this._mirroredXOffset(-1), this.y - 10 + TorsoYOffset[this._leftLegIndex]);
+        image(CharacterLegs[this._leftLegIndex], this.x + this._mirroredXOffset(+1), this.y - 2);
+        image(CharacterLegs[this._rightLegIndex], this.x + this._mirroredXOffset(-1), this.y - 2);
+        image(CharacterArms[this._rightLegIndex], this.x + this._mirroredXOffset(1), this.y - 9 + TorsoYOffset[this._rightLegIndex]);
+        image(R.CharacterTorso, this.x + this._mirroredXOffset(1), this.y - 8 + TorsoYOffset[this._leftLegIndex]);
+        image(R.CharacterHeads, this.x, this.y - 15 + HeadYOffset[this._leftLegIndex]);
+        image(CharacterArms[this._leftLegIndex], this.x + this._mirroredXOffset(-1), this.y - 9 + TorsoYOffset[this._leftLegIndex]);
     }
 
 
     // TOOLS.
+
+    _attemptLeft(slide)
+    {
+        this.x--;
+
+        const up = getTileProperty(this.x - CHARACTER_RADIUS, this.y - CHARACTER_RADIUS, "collides");
+        const down = getTileProperty(this.x - CHARACTER_RADIUS, this.y + CHARACTER_RADIUS, "collides");
+
+        if (up || down)
+        {
+            this.x++;
+            if (slide)
+            {
+                if (!up)
+                    this._attemptUp();
+                else if (!down)
+                    this._attemptDown();
+            }
+            return false;
+        }
+        return true;
+    }
+    _attemptRight(slide)
+    {
+        this.x++;
+
+        const up = getTileProperty(this.x + CHARACTER_RADIUS, this.y - CHARACTER_RADIUS, "collides");
+        const down = getTileProperty(this.x + CHARACTER_RADIUS, this.y + CHARACTER_RADIUS, "collides");
+
+        if (up || down)
+        {
+            this.x--;
+            if (slide)
+            {
+                if (!up)
+                    this._attemptUp();
+                else if (!down)
+                    this._attemptDown();
+            }
+            return false;
+        }
+        return true;
+    }
+    _attemptUp(slide)
+    {
+        this.y--;
+
+        const left = getTileProperty(this.x - CHARACTER_RADIUS, this.y - CHARACTER_RADIUS, "collides");
+        const right = getTileProperty(this.x + CHARACTER_RADIUS, this.y - CHARACTER_RADIUS, "collides");
+
+        if (left || right)
+        {
+            this.y++;
+            if (slide)
+            {
+                if (!left)
+                    this._attemptLeft();
+                else if (!right)
+                    this._attemptRight();
+            }
+            return false;
+        }
+        return true;
+    }
+    _attemptDown(slide)
+    {
+        this.y++;
+
+        const left = getTileProperty(this.x - CHARACTER_RADIUS, this.y + CHARACTER_RADIUS, "collides");
+        const right = getTileProperty(this.x + CHARACTER_RADIUS, this.y + CHARACTER_RADIUS, "collides");
+
+        if (left || right)
+        {
+            this.y--;
+            if (slide)
+            {
+                if (!left)
+                    this._attemptLeft();
+                else if (!right)
+                    this._attemptRight();
+            }
+            return false;
+        }
+        return true;
+    }
 
     _updateMovement()
     {
         let walking = false;
 
         {
-            let x = this.x;
-            let y = this.y;
-
             if (LEFT)
             {
-                x--;
-                if (getTileProperty(x - CHARACTER_RADIUS, y - CHARACTER_RADIUS, "collides") ||
-                    getTileProperty(x - CHARACTER_RADIUS, y + CHARACTER_RADIUS, "collides"))
-                    x++;
+                this._attemptLeft(!DOWN && !UP);
                 this._mirrored = true;
             }
             if (RIGHT)
             {
-                x++;
-                if (getTileProperty(x + CHARACTER_RADIUS, y - CHARACTER_RADIUS, "collides") ||
-                    getTileProperty(x + CHARACTER_RADIUS, y + CHARACTER_RADIUS, "collides"))
-                    x--;
+                this._attemptRight(!DOWN && !UP);
                 this._mirrored = false;
             }
             if (UP)
-            {
-                y--;
-                if (getTileProperty(x + CHARACTER_RADIUS, y - CHARACTER_RADIUS, "collides") ||
-                    getTileProperty(x - CHARACTER_RADIUS, y - CHARACTER_RADIUS, "collides"))
-                    y++;
-            }
+                this._attemptUp(!LEFT && !RIGHT);
             if (DOWN)
-            {
-                y++;
-                if (getTileProperty(x + CHARACTER_RADIUS, y + CHARACTER_RADIUS, "collides") ||
-                    getTileProperty(x - CHARACTER_RADIUS, y + CHARACTER_RADIUS, "collides"))
-                    y--;
-            }
-            this.x = x;
-            this.y = y;
+                this._attemptDown(!LEFT && !RIGHT);
             walking = LEFT || RIGHT || UP || DOWN;
         }
         return walking;
