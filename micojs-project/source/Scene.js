@@ -12,6 +12,8 @@ let Scene__renderCount = 0;
 const Scene__updateList = new Array(Scene_UPDATE_CAPACITY);
 let Scene__updateCount = 0;
 let Scene__enabled = true;
+let Scene_cameraX = 0;
+let Scene_cameraY = 0;
 
 function Scene_init()
 {
@@ -21,7 +23,7 @@ function Scene_init()
     Scene__renderCount = 0;
 
     // Scene here.
-
+ 
     new Character(50, 50);
 
     new Door(100, 41, false);
@@ -37,12 +39,16 @@ function Scene_init()
 
 function Scene_update()
 {
+    CAMERA_X = 0;
+    CAMERA_Y = 0;
     if (!Scene__enabled) return ;
     for (let i = 0; i < Scene__updateCount; i++)
         Scene__updateList[i].update();
+    Scene_cameraX = Character_x - getWidth() / 2;
+    Scene_cameraY = Character_y - getHeight() / 2;
 }
 
-function Scene_addUpdateItem(item)
+function Scene_addUpdateItem(item) 
 {
     if (Scene__updateCount < Scene_UPDATE_CAPACITY)
     {
@@ -72,7 +78,10 @@ function Scene_render()
         return ;
     }
 
+    CAMERA_X = Scene_cameraX;
+    CAMERA_Y = Scene_cameraY;
     setTileMap(R.LeafMap);
+    
     for (let i = 1; i < Scene__renderCount; i++)
         if (Scene__renderList[i - 1].y > Scene__renderList[i].y)
         {

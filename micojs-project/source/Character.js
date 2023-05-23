@@ -268,17 +268,20 @@ function Character__updateMovement()
 
 function Character__render()
 {
+    var x = Character_x - Scene_cameraX;
+    var y = Character_y - Scene_cameraY;
+
     // For the area.
     // setPen(128, 128, 128);
     // rect(Character_x - 3, Character_y - 3, 7, 7);
     setPen(0);
     setMirrored(Character__mirrored);
-    image(CharacterLegs[Character__leftLegIndex], Character_x + Character__mirroredXOffset(+1), Character_y - 2);
-    image(CharacterLegs[Character__rightLegIndex], Character_x + Character__mirroredXOffset(-1), Character_y - 2);
-    image(CharacterArms[Character__rightLegIndex], Character_x + Character__mirroredXOffset(1), Character_y - 9 + TorsoYOffset[Character__rightLegIndex]);
-    image(R.CharacterTorso, Character_x + Character__mirroredXOffset(1), Character_y - 8 + TorsoYOffset[Character__leftLegIndex]);
-    image(R.CharacterHeads, Character_x, Character_y - 15 + HeadYOffset[Character__leftLegIndex]);
-    image(CharacterArms[Character__leftLegIndex], Character_x + Character__mirroredXOffset(-1), Character_y - 9 + TorsoYOffset[Character__leftLegIndex]);
+    image(CharacterLegs[Character__leftLegIndex], x + Character__mirroredXOffset(+1), y - 2);
+    image(CharacterLegs[Character__rightLegIndex], x + Character__mirroredXOffset(-1), y - 2);
+    image(CharacterArms[Character__rightLegIndex], x + Character__mirroredXOffset(1), y - 9 + TorsoYOffset[Character__rightLegIndex]);
+    image(R.CharacterTorso, x + Character__mirroredXOffset(1), y - 8 + TorsoYOffset[Character__leftLegIndex]);
+    image(R.CharacterHeads, x, y - 15 + HeadYOffset[Character__leftLegIndex]);
+    image(CharacterArms[Character__leftLegIndex], x + Character__mirroredXOffset(-1), y - 9 + TorsoYOffset[Character__leftLegIndex]);
 }
 
 function Character__mirroredXOffset(offset)

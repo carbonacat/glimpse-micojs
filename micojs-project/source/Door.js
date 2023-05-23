@@ -29,12 +29,15 @@ class Door
 
     render()
     {
+        var x = this.x - Scene_cameraX;
+        var y = this.y - Scene_cameraY;
+        
         // For the area.
         // setPen(255, 0, 0);
-        // rect(this.x - 8, this.y - DOOR_RADIUS_Y, 16, DOOR_RADIUS_Y * 2);
-        this._render(this.x, this.y);
+        // rect(x - 8, y - DOOR_RADIUS_Y, 16, DOOR_RADIUS_Y * 2);
+        this._render(x, y);
         if (this._canBeInteractedWith)
-            image(R.Buttons1, this.x, this.y - DOOR_TO_STATUS_Y - ticker_4);
+            image(R.Buttons1, x, y - DOOR_TO_STATUS_Y - ticker_4);
     }
 
     setOpened(opened)
