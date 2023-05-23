@@ -6,25 +6,25 @@ const DOOR_RADIUS_Y = 1;
 
 class Door
 {
-    constructor(initX, initY, opened, scene)
+    constructor(initX, initY, opened)
     {
         this.x = initX;
         this.y = initY;
         this._canBeInteractedWith = false;
         this.setOpened(opened);
 
-        scene.addRenderItem(this);
-        scene.addUpdateItem(this);
+        Scene_addUpdateItem(this);
+        Scene_addRenderItem(this);
     }
 
-    update(scene)
+    update()
     {
-        const character = scene.character;
+        const character = Scene_character;
 
         if (character)
         {
-            let toCharacterX = abs(this.x - scene.character.x);
-            let toCharacterY = abs(this.y - scene.character.y);
+            let toCharacterX = abs(this.x - Scene_character.x);
+            let toCharacterY = abs(this.y - Scene_character.y);
             
             this._canBeInteractedWith = max(toCharacterX, toCharacterY) < DOOR_INTERACTION_DISTANCE;
             if (this._canBeInteractedWith)

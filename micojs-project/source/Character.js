@@ -4,7 +4,7 @@ const CHARACTER_RADIUS = 3;
 
 class Character
 {
-    constructor(initX, initY, scene)
+    constructor(initX, initY)
     {
         this.x = initX;
         this.y = initY;
@@ -16,13 +16,14 @@ class Character
         this._mirrored = false;
         this._leftLegIndex = 0;
         this._rightLegIndex = 0;
-        scene.addRenderItem(this);
-        scene.addUpdateItem(this);
+
+        Scene_addUpdateItem(this);
+        Scene_addRenderItem(this);
     }
 
     // LIFECYCLE.
 
-    update(scene)
+    update()
     {
         let subAnimIndex = this._subAnimIndex;
         let rightLegIndex = this._rightLegIndex;

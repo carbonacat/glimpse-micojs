@@ -2,73 +2,77 @@
 
 "include /source/Character.js";
 "include /source/Door.js";
+"include /source/tools.js";
 
-const RENDERING_CAPACITY = 16;
-const UPDATE_CAPACITY = 16;
+const Scene_RENDERING_CAPACITY = 16;
+const Scene_UPDATE_CAPACITY = 16;
 
-class Scene
+var Scene_character = null;
+const Scene__renderList = new Array(Scene_RENDERING_CAPACITY);
+var Scene__renderCount = 0;
+const Scene__updateList = new Array(Scene_UPDATE_CAPACITY);
+var Scene__updateCount = 0;
+
+function Scene_init()
 {
-    constructor()
+    Scene__updateList.fill(null);
+    Scene__updateCount = 0;
+    Scene__renderList.fill(null);
+    Scene__renderCount = 0;
+
+    // Scene here.
+
+    Scene_character = new Character(50, 50);
+
+    new Door(100, 41, false);
+
+    new Door(120, 49, true);
+    new Door(144, 49, false);
+    new Door(168, 49, false);
+    new Door(192, 49, false);
+    new Door(216, 49, false);
+
+    new Door(68, 97, false);
+}
+
+function Scene_update()
+{
+    for (let i = 0; i < Scene__updateCount; i++)
+        Scene__updateList[i].update();
+}
+
+function Scene_addUpdateItem(item)
+{
+    if (Scene__updateCount < Scene_UPDATE_CAPACITY)
     {
-        this.character = null;
-        this._renderList = new Array(RENDERING_CAPACITY);
-        this._renderCount = 0;
-        this._updateList = new Array(UPDATE_CAPACITY);
-        this._updateCount = 0;
-
-        // Map loading code here.
-        this.character = new Character(50, 50, this);
-
-        new Door(100, 41, false, this);
-
-        new Door(120, 49, true, this);
-        new Door(144, 49, false, this);
-        new Door(168, 49, false, this);
-        new Door(192, 49, false, this);
-        new Door(216, 49, false, this);
-
-        new Door(68, 97, false, this);
+        Scene__updateList[Scene__updateCount] = item;
+        Scene__updateCount++;
     }
+    else
+        debug("CRIT - UpdateList full!");
+}
 
-    update()
+function Scene_addRenderItem(item)
+{
+    if (Scene__renderCount < Scene_RENDERING_CAPACITY)
     {
-        for (let i = 0; i < this._updateCount; i++)
-            this._updateList[i].update(this);
+        Scene__renderList[Scene__renderCount] = item;
+        Scene__renderCount++;
     }
+    else
+        debug("CRIT - RenderList full!");
+}
 
-    addUpdateItem(item)
-    {
-        if (this._updateCount <= UPDATE_CAPACITY)
+function Scene_render()
+{
+    for (let i = 1; i < Scene__renderCount; i++)
+        if (Scene__renderList[i - 1].y > Scene__renderList[i].y)
         {
-            this._updateList[this._updateCount] = item;
-            this._updateCount++;
+            let tmp = Scene__renderList[i - 1];
+
+            Scene__renderList[i - 1] = Scene__renderList[i];
+            Scene__renderList[i] = tmp;
         }
-        else
-            debug("CRIT - UpdateList full!");
-    }
-
-    addRenderItem(item)
-    {
-        if (this._renderCount <= RENDERING_CAPACITY)
-        {
-            this._renderList[this._renderCount] = item;
-            this._renderCount++;
-        }
-        else
-            debug("CRIT - RenderList full!");
-    }
-
-    render()
-    {
-        for (let i = 1; i < this._renderCount; i++)
-            if (this._renderList[i - 1].y > this._renderList[i].y)
-            {
-                let tmp = this._renderList[i - 1];
-
-                this._renderList[i - 1] = this._renderList[i];
-                this._renderList[i] = tmp;
-            }
-        for (let i = 0; i < this._renderCount; i++)
-            this._renderList[i].render();
-    }
+    for (let i = 0; i < Scene__renderCount; i++)
+        Scene__renderList[i].render();
 }

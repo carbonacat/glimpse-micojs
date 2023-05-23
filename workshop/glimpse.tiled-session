@@ -3,10 +3,10 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "maps/Leaf.tmx",
+    "activeFile": "maps/Black.tmx",
     "expandedProjectPaths": [
-        "tiles",
         ".",
+        "tiles",
         "maps"
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
@@ -14,10 +14,23 @@
         "": {
             "scaleInEditor": 16
         },
+        "maps/Black.tmx": {
+            "scale": 16,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 22.71875,
+                "y": 12.96875
+            }
+        },
         "maps/Black.tmx#Tiles": {
-            "dynamicWrapping": false
+            "dynamicWrapping": false,
+            "scaleInDock": 1
         },
         "maps/Leaf.tmx": {
+            "expandedObjectLayers": [
+                3,
+                2
+            ],
             "scale": 5.5,
             "selectedLayer": 1,
             "viewCenter": {
@@ -27,10 +40,13 @@
         },
         "maps/Leaf.tmx#Tiles": {
             "dynamicWrapping": false,
-            "scaleInDock": 4
+            "scaleInDock": 4,
+            "scaleInEditor": 11
         },
         "maps/Objects.tsx": {
-            "dynamicWrapping": true
+            "dynamicWrapping": true,
+            "scaleInDock": 4,
+            "scaleInEditor": 11
         },
         "tiles/Tiles.tsx": {
             "dynamicWrapping": false,
@@ -49,12 +65,16 @@
     "map.tileWidth": 8,
     "map.width": 32,
     "openFiles": [
-        "maps/Leaf.tmx"
+        "maps/Leaf.tmx",
+        "maps/Objects.tsx",
+        "maps/Black.tmx"
     ],
     "project": "glimpse.tiled-project",
     "property.type": "bool",
     "recentFiles": [
         "maps/Leaf.tmx",
+        "maps/Objects.tsx",
+        "maps/Black.tmx",
         "tiles/Tiles.tsx"
     ],
     "tileset.embedInMap": false,

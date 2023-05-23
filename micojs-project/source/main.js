@@ -11,7 +11,6 @@
 const bgColor = setPen(0, 0, 0);
 const txtColor = setPen(64, 128, 255);
 
-let scene;
 let ticker = 0
 let ticker_1 = 0;
 let ticker_4 = 0;
@@ -26,7 +25,7 @@ function init() {
 
 function initGame() {
     setTileMap(R.LeafMap);
-    scene = new Scene();
+    Scene_init()
     watch.restart();
 }
 
@@ -38,8 +37,7 @@ function update(time) {
 
     watch.update();
     if (watch.showEverything)
-        scene.update()
-
+        Scene_update()
 }
 
 function render() {
@@ -49,7 +47,7 @@ function render() {
     if (watch.showEverything)
     {
         setTileMap(R.LeafMap);
-        scene.render();
+        Scene_render();
     }
     else
         setTileMap(R.BlackMap);
