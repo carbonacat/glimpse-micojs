@@ -8,15 +8,21 @@ const Scene_RENDERING_CAPACITY = 16;
 const Scene_UPDATE_CAPACITY = 16;
 
 const Scene__renderList = new Array(Scene_RENDERING_CAPACITY);
-let Scene__renderCount = 0;
+let Scene__renderCount;
 const Scene__updateList = new Array(Scene_UPDATE_CAPACITY);
-let Scene__updateCount = 0;
-let Scene__enabled = true;
-let Scene_cameraX = 0;
-let Scene_cameraY = 0;
+let Scene__updateCount;
+let Scene__enabled;
+let Scene_cameraX;
+let Scene_cameraY;
+let Scene_screenWidth;
+let Scene_screenHeight;
+
 
 function Scene_init()
 {
+    Scene_screenWidth = getWidth();
+    Scene_screenHeight = getHeight();
+
     Scene__updateList.fill(null);
     Scene__updateCount = 0;
     Scene__renderList.fill(null);
@@ -44,8 +50,8 @@ function Scene_update()
     if (!Scene__enabled) return ;
     for (let i = 0; i < Scene__updateCount; i++)
         Scene__updateList[i].update();
-    Scene_cameraX = Character_x - getWidth() / 2;
-    Scene_cameraY = Character_y - getHeight() / 2;
+    Scene_cameraX = max(0, min(Character_x - Scene_screenWidth / 2, 256 - Scene_screenWidth));
+    Scene_cameraY = max(0, min(Character_y - Scene_screenHeight / 2, 256 - Scene_screenHeight));
 }
 
 function Scene_addUpdateItem(item) 
