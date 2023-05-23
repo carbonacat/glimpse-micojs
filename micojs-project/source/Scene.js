@@ -7,7 +7,6 @@
 const Scene_RENDERING_CAPACITY = 16;
 const Scene_UPDATE_CAPACITY = 16;
 
-let Scene_character = null;
 const Scene__renderList = new Array(Scene_RENDERING_CAPACITY);
 let Scene__renderCount = 0;
 const Scene__updateList = new Array(Scene_UPDATE_CAPACITY);
@@ -23,7 +22,7 @@ function Scene_init()
 
     // Scene here.
 
-    Scene_character = new Character(50, 50);
+    new Character(50, 50);
 
     new Door(100, 41, false);
 

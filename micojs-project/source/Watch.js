@@ -48,10 +48,7 @@ function Watch_update()
         Watch__lastSecondTime += 1000;
         Watch__minutes++;
         if (Watch__minutes == 65)
-        {
-            // Time loop!
-            init();
-        }
+            initGame();
     }
     Watch__x = Watch__targetX + (Watch__x - Watch__targetX) * 0.9375;
     Watch__y = Watch__targetY + (Watch__y - Watch__targetY) * 0.9375;

@@ -15,24 +15,19 @@ class Character
 
     update()
     {
-        this.y = Character__y;
-        this.x = Character__x;
+        this.y = Character_y;
+        this.x = Character_x;
         Character__update();
     }
     render()
     {
         Character__render();
     }
-
-    onDoorNearby(door)
-    {
-        Character__onDoorNearby(door);
-    }
 }
 
 const CHARACTER_RADIUS = 3;
-let Character__x;
-let Character__y;
+let Character_x;
+let Character_y;
 
 let Character__lastA;
 let Character__acting;
@@ -47,8 +42,8 @@ let Character__rightLegIndex;
 
 function Character__init(x, y)
 {
-    Character__x = x;
-    Character__y = y;
+    Character_x = x;
+    Character_y = y;
 
     Character__lastA = A;
     Character__acting = false;
@@ -133,17 +128,17 @@ function Character__update()
         Character__acting = false;
 }
 
-function Character__onDoorNearby(door)
+function Character_onDoorNearby(door)
 {
     if (!door.isOpened())
     {
         // TODO: Door collision might be more for Door.js.
-        const relY = door.y - Character__y;
+        const relY = door.y - Character_y;
 
         if (abs(relY) < DOOR_RADIUS_Y + CHARACTER_RADIUS)
         {
-            if (relY <= 0) Character__y++;
-            else Character__y--;
+            if (relY <= 0) Character_y++;
+            else Character_y--;
         }
     }
     if (Character__acting)
@@ -158,14 +153,14 @@ function Character__onDoorNearby(door)
 
 function Character__attemptLeft(slide)
 {
-    Character__x--;
+    Character_x--;
 
-    const up = getTileProperty(Character__x - CHARACTER_RADIUS, Character__y - CHARACTER_RADIUS, "collides");
-    const down = getTileProperty(Character__x - CHARACTER_RADIUS, Character__y + CHARACTER_RADIUS, "collides");
+    const up = getTileProperty(Character_x - CHARACTER_RADIUS, Character_y - CHARACTER_RADIUS, "collides");
+    const down = getTileProperty(Character_x - CHARACTER_RADIUS, Character_y + CHARACTER_RADIUS, "collides");
 
     if (up || down)
     {
-        Character__x++;
+        Character_x++;
         if (slide)
         {
             if (!up)
@@ -180,14 +175,14 @@ function Character__attemptLeft(slide)
 
 function Character__attemptRight(slide)
 {
-    Character__x++;
+    Character_x++;
 
-    const up = getTileProperty(Character__x + CHARACTER_RADIUS, Character__y - CHARACTER_RADIUS, "collides");
-    const down = getTileProperty(Character__x + CHARACTER_RADIUS, Character__y + CHARACTER_RADIUS, "collides");
+    const up = getTileProperty(Character_x + CHARACTER_RADIUS, Character_y - CHARACTER_RADIUS, "collides");
+    const down = getTileProperty(Character_x + CHARACTER_RADIUS, Character_y + CHARACTER_RADIUS, "collides");
 
     if (up || down)
     {
-        Character__x--;
+        Character_x--;
         if (slide)
         {
             if (!up)
@@ -202,14 +197,14 @@ function Character__attemptRight(slide)
 
 function Character__attemptUp(slide)
 {
-    Character__y--;
+    Character_y--;
 
-    const left = getTileProperty(Character__x - CHARACTER_RADIUS, Character__y - CHARACTER_RADIUS, "collides");
-    const right = getTileProperty(Character__x + CHARACTER_RADIUS, Character__y - CHARACTER_RADIUS, "collides");
+    const left = getTileProperty(Character_x - CHARACTER_RADIUS, Character_y - CHARACTER_RADIUS, "collides");
+    const right = getTileProperty(Character_x + CHARACTER_RADIUS, Character_y - CHARACTER_RADIUS, "collides");
 
     if (left || right)
     {
-        Character__y++;
+        Character_y++;
         if (slide)
         {
             if (!left)
@@ -224,14 +219,14 @@ function Character__attemptUp(slide)
 
 function Character__attemptDown(slide)
 {
-    Character__y++;
+    Character_y++;
 
-    const left = getTileProperty(Character__x - CHARACTER_RADIUS, Character__y + CHARACTER_RADIUS, "collides");
-    const right = getTileProperty(Character__x + CHARACTER_RADIUS, Character__y + CHARACTER_RADIUS, "collides");
+    const left = getTileProperty(Character_x - CHARACTER_RADIUS, Character_y + CHARACTER_RADIUS, "collides");
+    const right = getTileProperty(Character_x + CHARACTER_RADIUS, Character_y + CHARACTER_RADIUS, "collides");
 
     if (left || right)
     {
-        Character__y--;
+        Character_y--;
         if (slide)
         {
             if (!left)
@@ -275,15 +270,15 @@ function Character__render()
 {
     // For the area.
     // setPen(128, 128, 128);
-    // rect(Character__x - 3, Character__y - 3, 7, 7);
+    // rect(Character_x - 3, Character_y - 3, 7, 7);
     setPen(0);
     setMirrored(Character__mirrored);
-    image(CharacterLegs[Character__leftLegIndex], Character__x + Character__mirroredXOffset(+1), Character__y - 2);
-    image(CharacterLegs[Character__rightLegIndex], Character__x + Character__mirroredXOffset(-1), Character__y - 2);
-    image(CharacterArms[Character__rightLegIndex], Character__x + Character__mirroredXOffset(1), Character__y - 9 + TorsoYOffset[Character__rightLegIndex]);
-    image(R.CharacterTorso, Character__x + Character__mirroredXOffset(1), Character__y - 8 + TorsoYOffset[Character__leftLegIndex]);
-    image(R.CharacterHeads, Character__x, Character__y - 15 + HeadYOffset[Character__leftLegIndex]);
-    image(CharacterArms[Character__leftLegIndex], Character__x + Character__mirroredXOffset(-1), Character__y - 9 + TorsoYOffset[Character__leftLegIndex]);
+    image(CharacterLegs[Character__leftLegIndex], Character_x + Character__mirroredXOffset(+1), Character_y - 2);
+    image(CharacterLegs[Character__rightLegIndex], Character_x + Character__mirroredXOffset(-1), Character_y - 2);
+    image(CharacterArms[Character__rightLegIndex], Character_x + Character__mirroredXOffset(1), Character_y - 9 + TorsoYOffset[Character__rightLegIndex]);
+    image(R.CharacterTorso, Character_x + Character__mirroredXOffset(1), Character_y - 8 + TorsoYOffset[Character__leftLegIndex]);
+    image(R.CharacterHeads, Character_x, Character_y - 15 + HeadYOffset[Character__leftLegIndex]);
+    image(CharacterArms[Character__leftLegIndex], Character_x + Character__mirroredXOffset(-1), Character_y - 9 + TorsoYOffset[Character__leftLegIndex]);
 }
 
 function Character__mirroredXOffset(offset)

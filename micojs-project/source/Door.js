@@ -19,17 +19,12 @@ class Door
 
     update()
     {
-        const character = Scene_character;
-
-        if (character)
-        {
-            let toCharacterX = abs(this.x - Scene_character.x);
-            let toCharacterY = abs(this.y - Scene_character.y);
-            
-            this._canBeInteractedWith = max(toCharacterX, toCharacterY) < DOOR_INTERACTION_DISTANCE;
-            if (this._canBeInteractedWith)
-                character.onDoorNearby(this);
-        }
+        let toCharacterX = abs(this.x - Character_x);
+        let toCharacterY = abs(this.y - Character_y);
+        
+        this._canBeInteractedWith = max(toCharacterX, toCharacterY) < DOOR_INTERACTION_DISTANCE;
+        if (this._canBeInteractedWith)
+            Character_onDoorNearby(this);
     }
 
     render()
