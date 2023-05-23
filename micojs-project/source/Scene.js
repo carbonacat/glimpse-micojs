@@ -7,11 +7,12 @@
 const Scene_RENDERING_CAPACITY = 16;
 const Scene_UPDATE_CAPACITY = 16;
 
-var Scene_character = null;
+let Scene_character = null;
 const Scene__renderList = new Array(Scene_RENDERING_CAPACITY);
-var Scene__renderCount = 0;
+let Scene__renderCount = 0;
 const Scene__updateList = new Array(Scene_UPDATE_CAPACITY);
-var Scene__updateCount = 0;
+let Scene__updateCount = 0;
+let Scene__enabled = true;
 
 function Scene_init()
 {
@@ -37,6 +38,7 @@ function Scene_init()
 
 function Scene_update()
 {
+    if (!Scene__enabled) return ;
     for (let i = 0; i < Scene__updateCount; i++)
         Scene__updateList[i].update();
 }
@@ -65,6 +67,13 @@ function Scene_addRenderItem(item)
 
 function Scene_render()
 {
+    if (!Scene__enabled)
+    {
+        setTileMap(R.BlackMap);
+        return ;
+    }
+
+    setTileMap(R.LeafMap);
     for (let i = 1; i < Scene__renderCount; i++)
         if (Scene__renderList[i - 1].y > Scene__renderList[i].y)
         {

@@ -1,91 +1,100 @@
 // Watch.js
 
-const watchTimeColor = setPen(255, 163, 0);
-const watchTimeUnderColor = setPen(93, 87, 79);
-const watchBGColor = setPen(29, 43, 83);
+"include /source/Scene.js";
 
-const WATCH_MINUTES_INIT = 24;
-const WATCH_SECONDS_BEFORE_INIT = 2;
 
-class Watch
+// DATA.
+
+const Watch__timeColor = setPen(255, 163, 0);
+const Watch__timeUnderColor = setPen(93, 87, 79);
+const Watch__BGColor = setPen(29, 43, 83);
+
+const Watch__MINUTES_INIT = 24;
+const Watch__SECONDS_BEFORE_INIT = 2;
+
+let Watch__minutes;
+let Watch__lastSecondTime;
+let Watch__x;
+let Watch__y;
+let Watch__targetX;
+let Watch__targetY;
+
+
+// LIFECYCLE.
+
+function Watch_init()
 {
-    constructor()
+    Watch__minutes = 0;
+    Watch__lastSecondTime = 0;
+    Scene__enabled = false;
+    Watch__targetX = getWidth() / 2;
+    Watch__targetY = getHeight() / 2;
+    Watch__x = Watch__targetX;
+    Watch__y = Watch__targetY;
+}
+
+function Watch_restart()
+{
+    Watch__lastSecondTime = getTime();
+    Watch__minutes = Watch__MINUTES_INIT - Watch__SECONDS_BEFORE_INIT;
+}
+
+function Watch_update()
+{
+    let newTime = getTime();
+
+    if (newTime - Watch__lastSecondTime > 1000)
     {
-        this.minutes = 0;
-        this.lastSecondTime = 0;
-        this.showEverything = false;
-
-        this.watchTargetX = getWidth() / 2;
-        this.watchTargetY = getHeight() / 2;
-        this.watchX = this.watchTargetX;
-        this.watchY = this.watchTargetY;
+        Watch__lastSecondTime += 1000;
+        Watch__minutes++;
+        if (Watch__minutes == 65)
+        {
+            // Time loop!
+            init();
+        }
     }
-
-    // LIFECYCLE.
-
-    restart()
+    Watch__x = Watch__targetX + (Watch__x - Watch__targetX) * 0.9375;
+    Watch__y = Watch__targetY + (Watch__y - Watch__targetY) * 0.9375;
+    if (Watch__minutes < Watch__MINUTES_INIT)
     {
-        this.lastSecondTime = getTime();
-        this.minutes = WATCH_MINUTES_INIT - WATCH_SECONDS_BEFORE_INIT;
+        Scene__enabled = false;
+        Watch__targetX = getWidth() / 2;
+        Watch__targetY = getHeight() / 2;
     }
-
-    update()
+    else if (Watch__minutes == Watch__MINUTES_INIT)
     {
-        let newTime = getTime();
-
-        if (newTime - this.lastSecondTime > 1000)
-        {
-            this.lastSecondTime += 1000;
-            this.minutes++;
-            if (this.minutes == 65)
-            {
-                // Time loop!
-                init();
-            }
-        }
-        this.watchX = this.watchTargetX + (this.watchX - this.watchTargetX) * 0.9375;
-        this.watchY = this.watchTargetY + (this.watchY - this.watchTargetY) * 0.9375;
-        if (this.minutes < WATCH_MINUTES_INIT)
-        {
-            this.showEverything = false;
-            this.watchTargetX = getWidth() / 2;
-            this.watchTargetY = getHeight() / 2;
-        }
-        else if (this.minutes == WATCH_MINUTES_INIT)
-        {
-            this.showEverything = true;
-            this.watchTargetX = getWidth() - 17;
-            this.watchTargetY = 17;
-        }
-        else if (this.minutes < 60)
-        {
-            // TODO: ??
-        }
-        else if (this.minutes == 60)
-        {
-            this.watchTargetX = getWidth() / 2;
-            this.watchTargetY = getHeight() / 2;
-        }
-        else if (this.minutes < 62)
-            this.showEverything = ticker_1;
-        else
-            this.showEverything = false;
+        Scene__enabled = true;
+        Watch__targetX = getWidth() - 17;
+        Watch__targetY = 17;
     }
-
-    render()
+    else if (Watch__minutes < 60)
     {
-        setPen(watchBGColor);
-        rect(this.watchX - 16, this.watchY - 16, 33, 33);
-
-        setFont(R.fontKoubit);
-        setPen(watchTimeUnderColor);
-        text("88:88", this.watchX - 16 + 1, this.watchY - 16 + 13);
-        setPen(watchTimeColor);
-        if (this.minutes < WATCH_MINUTES_INIT)
-            text("7:24", this.watchX - 16  + 9, this.watchY - 16  + 13);
-        else if (this.minutes >= 60)
-            text("8:00", this.watchX - 16  + 9, this.watchY - 16  + 13);
-        else
-            text("7:" + this.minutes, this.watchX - 16  + 9, this.watchY - 16  + 13);
+        // TODO: ??
     }
+    else if (Watch__minutes == 60)
+    {
+        Watch__targetX = getWidth() / 2;
+        Watch__targetY = getHeight() / 2;
+    }
+    else if (Watch__minutes < 62)
+        Scene__enabled = ticker_1;
+    else
+        Scene__enabled = false;
+}
+
+function Watch_render()
+{
+    setPen(Watch__BGColor);
+    rect(Watch__x - 16, Watch__y - 16, 33, 33);
+
+    setFont(R.fontKoubit);
+    setPen(Watch__timeUnderColor);
+    text("88:88", Watch__x - 16 + 1, Watch__y - 16 + 13);
+    setPen(Watch__timeColor);
+    if (Watch__minutes < Watch__MINUTES_INIT)
+        text("7:24", Watch__x - 16  + 9, Watch__y - 16  + 13);
+    else if (Watch__minutes >= 60)
+        text("8:00", Watch__x - 16  + 9, Watch__y - 16  + 13);
+    else
+        text("7:" + Watch__minutes, Watch__x - 16  + 9, Watch__y - 16  + 13);
 }

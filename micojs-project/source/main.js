@@ -19,14 +19,14 @@ let watch = null;
 function init() {
     setFPS(30);
 
-    watch = new Watch();
+    Watch_init();
     initGame();
 }
 
 function initGame() {
     setTileMap(R.LeafMap);
     Scene_init()
-    watch.restart();
+    Watch_restart();
 }
 
 function update(time) {
@@ -35,22 +35,14 @@ function update(time) {
     if (ticker & 0x04 == 0x04)
         ticker_4 = 1 - ticker_4;
 
-    watch.update();
-    if (watch.showEverything)
-        Scene_update()
+    Watch_update();
+    Scene_update()
 }
 
 function render() {
     setPen(bgColor);
     clear();
-
-    if (watch.showEverything)
-    {
-        setTileMap(R.LeafMap);
-        Scene_render();
-    }
-    else
-        setTileMap(R.BlackMap);
-
-    watch.render();
+    
+    Scene_render();
+    Watch_render();
 }
