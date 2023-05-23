@@ -1,257 +1,295 @@
 // Character.js
 
-const CHARACTER_RADIUS = 3;
+// DATA.
 
 class Character
 {
-    constructor(initX, initY)
+    constructor(x, y)
     {
-        this.x = initX;
-        this.y = initY;
-
-        this._lastA = A;
-        this._acting = false;
-
-        this._subAnimIndex = 0;
-        this._mirrored = false;
-        this._leftLegIndex = 0;
-        this._rightLegIndex = 0;
-
+        this.x = x;
+        this.y = y;
+        Character__init(x, y);
         Scene_addUpdateItem(this);
         Scene_addRenderItem(this);
     }
 
-    // LIFECYCLE.
-
     update()
     {
-        let subAnimIndex = this._subAnimIndex;
-        let rightLegIndex = this._rightLegIndex;
-        let leftLegIndex = this._leftLegIndex;
-
-        if (this._updateMovement())
-        {
-            subAnimIndex++;
-            if (subAnimIndex >= 3)
-            {
-                subAnimIndex = 0;
-                
-                let leftToRight = rightLegIndex - leftLegIndex;
-
-                if (leftToRight < 0) leftToRight += CharacterLegs.length;
-
-                if (leftToRight == 4)
-                {
-                    rightLegIndex += 1;
-                    if (rightLegIndex >= CharacterLegs.length)
-                        rightLegIndex = 0;
-                }
-                else if (leftToRight == 5)
-                {
-                    leftLegIndex += 1;
-                    if (leftLegIndex >= CharacterLegs.length)
-                        leftLegIndex = 0;
-                    rightLegIndex += 1;
-                    if (rightLegIndex >= CharacterLegs.length)
-                        rightLegIndex = 0;
-                }
-                else
-                {
-                    leftLegIndex -= 1;
-                    if (leftLegIndex < 0)
-                        leftLegIndex = CharacterLegs.length - 1;
-                    rightLegIndex += 1;
-                    if (rightLegIndex >= CharacterLegs.length)
-                        rightLegIndex = 0;
-                }
-            }
-        }
-        else
-        {
-            subAnimIndex = 0;
-            if (leftLegIndex > 5)
-            {
-                leftLegIndex++;
-                if (leftLegIndex >= CharacterLegs.length) leftLegIndex = 0;
-            }
-            else if (leftLegIndex > 0) leftLegIndex--;
-            if (rightLegIndex > 5)
-            {
-                rightLegIndex++;
-                if (rightLegIndex >= CharacterLegs.length) rightLegIndex = 0;
-            }
-            else if (rightLegIndex > 0) rightLegIndex--;
-        }
-        
-        this._subAnimIndex = subAnimIndex;
-        this._rightLegIndex = rightLegIndex;
-        this._leftLegIndex = leftLegIndex;
-
-        
-        if (A != this._lastA)
-        {
-            this._lastA = A;
-            this._acting = A;
-        }
-        else
-            this._acting = false;
+        this.y = Character__y;
+        this.x = Character__x;
+        Character__update();
+    }
+    render()
+    {
+        Character__render();
     }
 
     onDoorNearby(door)
     {
-        if (!door.isOpened())
-        {
-            // TODO: Door collision might be more for Door.js.
-            const relY = door.y - this.y;
+        Character__onDoorNearby(door);
+    }
+}
 
-            if (abs(relY) < DOOR_RADIUS_Y + CHARACTER_RADIUS)
+const CHARACTER_RADIUS = 3;
+let Character__x;
+let Character__y;
+
+let Character__lastA;
+let Character__acting;
+
+let Character__subAnimIndex;
+let Character__mirrored;
+let Character__leftLegIndex;
+let Character__rightLegIndex;
+
+
+// // LIFECYCLE.
+
+function Character__init(x, y)
+{
+    Character__x = x;
+    Character__y = y;
+
+    Character__lastA = A;
+    Character__acting = false;
+
+    Character__subAnimIndex = 0;
+    Character__mirrored = false;
+    Character__leftLegIndex = 0;
+    Character__rightLegIndex = 0;
+}
+
+function Character__update()
+{
+    let subAnimIndex = Character__subAnimIndex;
+    let rightLegIndex = Character__rightLegIndex;
+    let leftLegIndex = Character__leftLegIndex;
+
+    if (Character__updateMovement())
+    {
+        subAnimIndex++;
+        if (subAnimIndex >= 3)
+        {
+            subAnimIndex = 0;
+            
+            let leftToRight = rightLegIndex - leftLegIndex;
+
+            if (leftToRight < 0) leftToRight += CharacterLegs.length;
+
+            if (leftToRight == 4)
             {
-                if (relY <= 0) this.y++;
-                else this.y--;
+                rightLegIndex += 1;
+                if (rightLegIndex >= CharacterLegs.length)
+                    rightLegIndex = 0;
+            }
+            else if (leftToRight == 5)
+            {
+                leftLegIndex += 1;
+                if (leftLegIndex >= CharacterLegs.length)
+                    leftLegIndex = 0;
+                rightLegIndex += 1;
+                if (rightLegIndex >= CharacterLegs.length)
+                    rightLegIndex = 0;
+            }
+            else
+            {
+                leftLegIndex -= 1;
+                if (leftLegIndex < 0)
+                    leftLegIndex = CharacterLegs.length - 1;
+                rightLegIndex += 1;
+                if (rightLegIndex >= CharacterLegs.length)
+                    rightLegIndex = 0;
             }
         }
-        if (this._acting)
+    }
+    else
+    {
+        subAnimIndex = 0;
+        if (leftLegIndex > 5)
         {
-            door.setOpened(!door.isOpened());
-            this._acting = false;
+            leftLegIndex++;
+            if (leftLegIndex >= CharacterLegs.length) leftLegIndex = 0;
+        }
+        else if (leftLegIndex > 0) leftLegIndex--;
+        if (rightLegIndex > 5)
+        {
+            rightLegIndex++;
+            if (rightLegIndex >= CharacterLegs.length) rightLegIndex = 0;
+        }
+        else if (rightLegIndex > 0) rightLegIndex--;
+    }
+    
+    Character__subAnimIndex = subAnimIndex;
+    Character__rightLegIndex = rightLegIndex;
+    Character__leftLegIndex = leftLegIndex;
+
+    
+    if (A != Character__lastA)
+    {
+        Character__lastA = A;
+        Character__acting = A;
+    }
+    else
+        Character__acting = false;
+}
+
+function Character__onDoorNearby(door)
+{
+    if (!door.isOpened())
+    {
+        // TODO: Door collision might be more for Door.js.
+        const relY = door.y - Character__y;
+
+        if (abs(relY) < DOOR_RADIUS_Y + CHARACTER_RADIUS)
+        {
+            if (relY <= 0) Character__y++;
+            else Character__y--;
         }
     }
-
-
-    // RENDERING.
-
-    render()
+    if (Character__acting)
     {
-        // For the area.
-        // setPen(128, 128, 128);
-        // rect(this.x - 3, this.y - 3, 7, 7);
-        setPen(0);
-        setMirrored(this._mirrored);
-        image(CharacterLegs[this._leftLegIndex], this.x + this._mirroredXOffset(+1), this.y - 2);
-        image(CharacterLegs[this._rightLegIndex], this.x + this._mirroredXOffset(-1), this.y - 2);
-        image(CharacterArms[this._rightLegIndex], this.x + this._mirroredXOffset(1), this.y - 9 + TorsoYOffset[this._rightLegIndex]);
-        image(R.CharacterTorso, this.x + this._mirroredXOffset(1), this.y - 8 + TorsoYOffset[this._leftLegIndex]);
-        image(R.CharacterHeads, this.x, this.y - 15 + HeadYOffset[this._leftLegIndex]);
-        image(CharacterArms[this._leftLegIndex], this.x + this._mirroredXOffset(-1), this.y - 9 + TorsoYOffset[this._leftLegIndex]);
+        door.setOpened(!door.isOpened());
+        Character__acting = false;
     }
+}
 
 
-    // TOOLS.
+// MOVEMENT.
 
-    _attemptLeft(slide)
+function Character__attemptLeft(slide)
+{
+    Character__x--;
+
+    const up = getTileProperty(Character__x - CHARACTER_RADIUS, Character__y - CHARACTER_RADIUS, "collides");
+    const down = getTileProperty(Character__x - CHARACTER_RADIUS, Character__y + CHARACTER_RADIUS, "collides");
+
+    if (up || down)
     {
-        this.x--;
-
-        const up = getTileProperty(this.x - CHARACTER_RADIUS, this.y - CHARACTER_RADIUS, "collides");
-        const down = getTileProperty(this.x - CHARACTER_RADIUS, this.y + CHARACTER_RADIUS, "collides");
-
-        if (up || down)
+        Character__x++;
+        if (slide)
         {
-            this.x++;
-            if (slide)
-            {
-                if (!up)
-                    this._attemptUp();
-                else if (!down)
-                    this._attemptDown();
-            }
-            return false;
+            if (!up)
+                Character__attemptUp();
+            else if (!down)
+                Character__attemptDown();
         }
-        return true;
+        return false;
     }
-    _attemptRight(slide)
+    return true;
+}
+
+function Character__attemptRight(slide)
+{
+    Character__x++;
+
+    const up = getTileProperty(Character__x + CHARACTER_RADIUS, Character__y - CHARACTER_RADIUS, "collides");
+    const down = getTileProperty(Character__x + CHARACTER_RADIUS, Character__y + CHARACTER_RADIUS, "collides");
+
+    if (up || down)
     {
-        this.x++;
-
-        const up = getTileProperty(this.x + CHARACTER_RADIUS, this.y - CHARACTER_RADIUS, "collides");
-        const down = getTileProperty(this.x + CHARACTER_RADIUS, this.y + CHARACTER_RADIUS, "collides");
-
-        if (up || down)
+        Character__x--;
+        if (slide)
         {
-            this.x--;
-            if (slide)
-            {
-                if (!up)
-                    this._attemptUp();
-                else if (!down)
-                    this._attemptDown();
-            }
-            return false;
+            if (!up)
+                Character__attemptUp();
+            else if (!down)
+                Character__attemptDown();
         }
-        return true;
+        return false;
     }
-    _attemptUp(slide)
+    return true;
+}
+
+function Character__attemptUp(slide)
+{
+    Character__y--;
+
+    const left = getTileProperty(Character__x - CHARACTER_RADIUS, Character__y - CHARACTER_RADIUS, "collides");
+    const right = getTileProperty(Character__x + CHARACTER_RADIUS, Character__y - CHARACTER_RADIUS, "collides");
+
+    if (left || right)
     {
-        this.y--;
-
-        const left = getTileProperty(this.x - CHARACTER_RADIUS, this.y - CHARACTER_RADIUS, "collides");
-        const right = getTileProperty(this.x + CHARACTER_RADIUS, this.y - CHARACTER_RADIUS, "collides");
-
-        if (left || right)
+        Character__y++;
+        if (slide)
         {
-            this.y++;
-            if (slide)
-            {
-                if (!left)
-                    this._attemptLeft();
-                else if (!right)
-                    this._attemptRight();
-            }
-            return false;
+            if (!left)
+                Character__attemptLeft();
+            else if (!right)
+                Character__attemptRight();
         }
-        return true;
+        return false;
     }
-    _attemptDown(slide)
+    return true;
+}
+
+function Character__attemptDown(slide)
+{
+    Character__y++;
+
+    const left = getTileProperty(Character__x - CHARACTER_RADIUS, Character__y + CHARACTER_RADIUS, "collides");
+    const right = getTileProperty(Character__x + CHARACTER_RADIUS, Character__y + CHARACTER_RADIUS, "collides");
+
+    if (left || right)
     {
-        this.y++;
-
-        const left = getTileProperty(this.x - CHARACTER_RADIUS, this.y + CHARACTER_RADIUS, "collides");
-        const right = getTileProperty(this.x + CHARACTER_RADIUS, this.y + CHARACTER_RADIUS, "collides");
-
-        if (left || right)
+        Character__y--;
+        if (slide)
         {
-            this.y--;
-            if (slide)
-            {
-                if (!left)
-                    this._attemptLeft();
-                else if (!right)
-                    this._attemptRight();
-            }
-            return false;
+            if (!left)
+                Character__attemptLeft();
+            else if (!right)
+                Character__attemptRight();
         }
-        return true;
+        return false;
     }
+    return true;
+}
 
-    _updateMovement()
+function Character__updateMovement()
+{
+    let walking = false;
+
     {
-        let walking = false;
-
+        if (LEFT)
         {
-            if (LEFT)
-            {
-                this._attemptLeft(!DOWN && !UP);
-                this._mirrored = true;
-            }
-            if (RIGHT)
-            {
-                this._attemptRight(!DOWN && !UP);
-                this._mirrored = false;
-            }
-            if (UP)
-                this._attemptUp(!LEFT && !RIGHT);
-            if (DOWN)
-                this._attemptDown(!LEFT && !RIGHT);
-            walking = LEFT || RIGHT || UP || DOWN;
+            Character__attemptLeft(!DOWN && !UP);
+            Character__mirrored = true;
         }
-        return walking;
+        if (RIGHT)
+        {
+            Character__attemptRight(!DOWN && !UP);
+            Character__mirrored = false;
+        }
+        if (UP)
+            Character__attemptUp(!LEFT && !RIGHT);
+        if (DOWN)
+            Character__attemptDown(!LEFT && !RIGHT);
+        walking = LEFT || RIGHT || UP || DOWN;
     }
+    return walking;
+}
 
-    _mirroredXOffset(offset)
-    {
-        if (this._mirrored) return -offset;
-        return offset;
-    }
+
+// RENDERING.
+
+function Character__render()
+{
+    // For the area.
+    // setPen(128, 128, 128);
+    // rect(Character__x - 3, Character__y - 3, 7, 7);
+    setPen(0);
+    setMirrored(Character__mirrored);
+    image(CharacterLegs[Character__leftLegIndex], Character__x + Character__mirroredXOffset(+1), Character__y - 2);
+    image(CharacterLegs[Character__rightLegIndex], Character__x + Character__mirroredXOffset(-1), Character__y - 2);
+    image(CharacterArms[Character__rightLegIndex], Character__x + Character__mirroredXOffset(1), Character__y - 9 + TorsoYOffset[Character__rightLegIndex]);
+    image(R.CharacterTorso, Character__x + Character__mirroredXOffset(1), Character__y - 8 + TorsoYOffset[Character__leftLegIndex]);
+    image(R.CharacterHeads, Character__x, Character__y - 15 + HeadYOffset[Character__leftLegIndex]);
+    image(CharacterArms[Character__leftLegIndex], Character__x + Character__mirroredXOffset(-1), Character__y - 9 + TorsoYOffset[Character__leftLegIndex]);
+}
+
+function Character__mirroredXOffset(offset)
+{
+    if (Character__mirrored) return -offset;
+    return offset;
 }
 
 const CharacterLegs =
