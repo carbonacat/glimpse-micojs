@@ -37,7 +37,6 @@ function Watch_restart()
 {
     Watch__lastSecondTime = getTime();
     Watch__minutes = Watch__MINUTES_INIT - Watch__SECONDS_BEFORE_INIT;
-    Watch__minutes = Watch__MINUTES_INIT; // To skip the "intro".
 }
 
 function Watch_update()
@@ -55,6 +54,8 @@ function Watch_update()
     Watch__y = Watch__targetY + (Watch__y - Watch__targetY) * 0.9375;
     if (Watch__minutes < Watch__MINUTES_INIT)
     {
+        if (A)
+            Watch__minutes = Watch__MINUTES_INIT; // To skip the "intro".
         Scene__enabled = false;
         Watch__targetX = getWidth() / 2;
         Watch__targetY = getHeight() / 2;
