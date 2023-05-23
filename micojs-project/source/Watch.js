@@ -37,6 +37,7 @@ function Watch_restart()
 {
     Watch__lastSecondTime = getTime();
     Watch__minutes = Watch__MINUTES_INIT - Watch__SECONDS_BEFORE_INIT;
+    Watch__minutes = Watch__MINUTES_INIT; // To skip the "intro".
 }
 
 function Watch_update()
@@ -89,9 +90,9 @@ function Watch_render()
     text("88:88", Watch__x - 16 + 1, Watch__y - 16 + 13);
     setPen(Watch__timeColor);
     if (Watch__minutes < Watch__MINUTES_INIT)
-        text("7:24", Watch__x - 16  + 9, Watch__y - 16  + 13);
+        text("7:24", Watch__x - 16 + 8, Watch__y - 16  + 13);
     else if (Watch__minutes >= 60)
-        text("8:00", Watch__x - 16  + 9, Watch__y - 16  + 13);
+        text("8:00", Watch__x - 16 + 8, Watch__y - 16  + 13);
     else
-        text("7:" + Watch__minutes, Watch__x - 16  + 9, Watch__y - 16  + 13);
+        text("7:" + Watch__minutes, Watch__x - 16  + 8, Watch__y - 16  + 13);
 }
