@@ -50,8 +50,8 @@ function Scene_update()
     if (!Scene__enabled) return ;
     for (let i = 0; i < Scene__updateCount; i++)
         Scene__updateList[i].update();
-    Scene_cameraX = max(0, min(Character_x - Scene_screenWidth / 2, 256 - Scene_screenWidth));
-    Scene_cameraY = max(0, min(Character_y - Scene_screenHeight / 2, 256 - Scene_screenHeight));
+    Scene_cameraX = max(0, min(Character_x - Scene_screenWidth / 2, 320 - Scene_screenWidth));
+    Scene_cameraY = max(0, min(Character_y - Scene_screenHeight / 2, 320 - Scene_screenHeight));
 }
 
 function Scene_addUpdateItem(item) 
