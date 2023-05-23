@@ -18,6 +18,7 @@ let Watch__x;
 let Watch__y;
 let Watch__targetX;
 let Watch__targetY;
+let Watch__life;
 
 
 // LIFECYCLE.
@@ -31,6 +32,7 @@ function Watch_init()
     Watch__targetY = getHeight() / 2;
     Watch__x = Watch__targetX;
     Watch__y = Watch__targetY;
+    Watch__life = 0;
 }
 
 function Watch_restart()
@@ -55,10 +57,17 @@ function Watch_update()
     if (Watch__minutes < Watch__MINUTES_INIT)
     {
         if (A)
+        {
             Watch__minutes = Watch__MINUTES_INIT; // To skip the "intro".
-        Scene__enabled = false;
-        Watch__targetX = getWidth() / 2;
-        Watch__targetY = getHeight() / 2;
+            Watch__life = 8;
+        }
+        else
+        {
+            Scene__enabled = false;
+            Watch__targetX = getWidth() / 2;
+            Watch__targetY = getHeight() / 2;
+            if (ticker_4 && Watch__life < 8) Watch__life++;
+        }
     }
     else if (Watch__minutes == Watch__MINUTES_INIT)
     {
@@ -76,13 +85,17 @@ function Watch_update()
         Watch__targetY = getHeight() / 2;
     }
     else if (Watch__minutes < 62)
+    {
+        if (ticker_4 && Watch__life > 0) Watch__life--;
         Scene__enabled = ticker_1;
+    }
     else
         Scene__enabled = false;
 }
 
 function Watch_render()
 {
+    setMirrored(false);
     setPen(Watch__BGColor);
     rect(Watch__x - 16, Watch__y - 16, 33, 33);
 
@@ -96,4 +109,19 @@ function Watch_render()
         text("8:00", Watch__x - 16 + 8, Watch__y - 16  + 13);
     else
         text("7:" + Watch__minutes, Watch__x - 16  + 8, Watch__y - 16  + 13);
+    setPen(0);
+    image(R.WatchUI5, Watch__x - 11, Watch__y - 11);
+    image(R.WatchUI4, Watch__x + 13, Watch__y - 11);
+
+    image(Watch__heartFor(1), Watch__x - 11, Watch__y + 14);
+    image(Watch__heartFor(3), Watch__x - 3, Watch__y + 14);
+    image(Watch__heartFor(5), Watch__x + 5, Watch__y + 14);
+    image(Watch__heartFor(7), Watch__x + 13, Watch__y + 14);
+}
+
+function Watch__heartFor(refValue)
+{
+    if (Watch__life > refValue) return R.WatchUI3;
+    if (Watch__life == refValue) return R.WatchUI2;
+    return R.WatchUI1;
 }
