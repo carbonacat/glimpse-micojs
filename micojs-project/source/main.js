@@ -32,7 +32,7 @@ function initGame() {
 function update(time) {
     ticker++;
     ticker_1 = 1 - ticker_1;
-    if (ticker & 0x04 == 0x04)
+    if ((ticker & 0x03) == 0x00)
         ticker_4 = 1 - ticker_4;
 
     Watch_update();
