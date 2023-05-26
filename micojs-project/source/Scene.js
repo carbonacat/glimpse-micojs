@@ -4,12 +4,10 @@
 "include /source/Door.js";
 "include /source/tools.js";
 
-const Scene_RENDERING_CAPACITY = 16;
-const Scene_UPDATE_CAPACITY = 16;
-
-const Scene__renderList = new Array(Scene_RENDERING_CAPACITY);
+const Scene__CAPACITY = 32;
+const Scene__renderList = new Array(Scene__CAPACITY);
 let Scene__renderCount;
-const Scene__updateList = new Array(Scene_UPDATE_CAPACITY);
+const Scene__updateList = new Array(Scene__CAPACITY);
 let Scene__updateCount;
 let Scene__enabled;
 let Scene_cameraX;
@@ -56,7 +54,7 @@ function Scene_update()
 
 function Scene_addUpdateItem(item) 
 {
-    if (Scene__updateCount < Scene_UPDATE_CAPACITY)
+    if (Scene__updateCount < Scene__CAPACITY)
     {
         Scene__updateList[Scene__updateCount] = item;
         Scene__updateCount++;
@@ -67,7 +65,7 @@ function Scene_addUpdateItem(item)
 
 function Scene_addRenderItem(item)
 {
-    if (Scene__renderCount < Scene_RENDERING_CAPACITY)
+    if (Scene__renderCount < Scene__CAPACITY)
     {
         Scene__renderList[Scene__renderCount] = item;
         Scene__renderCount++;
