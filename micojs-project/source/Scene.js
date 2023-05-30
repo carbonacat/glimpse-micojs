@@ -49,7 +49,13 @@ function Scene_update()
     CAMERA_Y = 0;
     if (!Scene__enabled) return ;
     for (let i = 0; i < Scene__entitiesCount; i++)
-        Scene__entities[i].update();
+        if (Scene__entities[i].update())
+        {
+            for (let j = i; j < Scene__entitiesCount; j++)
+                Scene__entities[j] = Scene__entities[j + 1];
+            Scene__entitiesCount--;
+            i--;
+        }
     Scene_cameraX = max(0, min(Character_x - Scene_screenWidth / 2, 320 - Scene_screenWidth));
     Scene_cameraY = max(0, min(Character_y - Scene_screenHeight / 2, 320 - Scene_screenHeight));
 }

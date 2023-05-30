@@ -148,6 +148,15 @@ function Character_onDoorNearby(door)
     }
 }
 
+function Character_onItemNearby(item)
+{
+    if (Character__acting)
+    {
+        item.pickup();
+        Character__acting = false;
+    }
+}
+
 
 // MOVEMENT.
 
