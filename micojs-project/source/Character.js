@@ -137,6 +137,14 @@ function Character_onCanInteractWith(entity)
     }
 }
 
+function Character_checkInteractable(entity, radius)
+{
+    let toCharacterX = abs(entity.x - Character_x);
+    let toCharacterY = abs(entity.y - Character_y);
+    
+    return max(toCharacterX, toCharacterY) < DOOR_INTERACTION_DISTANCE;
+}
+
 
 // MOVEMENT.
 

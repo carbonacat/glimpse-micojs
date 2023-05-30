@@ -14,10 +14,7 @@ class Item {
     }
 
     update() {
-        let toCharacterX = abs(this.x - Character_x);
-        let toCharacterY = abs(this.y - Character_y);
-        
-        this._canBeInteractedWith = max(toCharacterX, toCharacterY) < DOOR_INTERACTION_DISTANCE;
+        this._canBeInteractedWith = Character_checkInteractable(this, DOOR_INTERACTION_DISTANCE);
         if (this._canBeInteractedWith)
             Character_onCanInteractWith(this);
         return this._deleteMe;

@@ -18,10 +18,7 @@ class Door
 
     update()
     {
-        let toCharacterX = abs(this.x - Character_x);
-        let toCharacterY = abs(this.y - Character_y);
-        
-        this._canBeInteractedWith = max(toCharacterX, toCharacterY) < DOOR_INTERACTION_DISTANCE;
+        this._canBeInteractedWith = Character_checkInteractable(this, DOOR_INTERACTION_DISTANCE);
         if (this._canBeInteractedWith)
         {
             if (this._render != Door_renderOpenDoor)
