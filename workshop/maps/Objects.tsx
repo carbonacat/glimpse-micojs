@@ -6,25 +6,25 @@
  </tile>
  <tile id="2">
   <properties>
-   <property name="resource" value="Items2"/>
+   <property name="resource" value="Screwdriver"/>
   </properties>
   <image width="8" height="8" source="../objects/Screwdriver.png"/>
  </tile>
  <tile id="3">
   <properties>
-   <property name="resource" value="Items4"/>
+   <property name="resource" value="Batteries"/>
   </properties>
   <image width="8" height="8" source="../objects/Batteries.png"/>
  </tile>
  <tile id="4">
   <properties>
-   <property name="resource" value="Items3"/>
+   <property name="resource" value="Gear"/>
   </properties>
   <image width="8" height="8" source="../objects/Gear.png"/>
  </tile>
  <tile id="5">
   <properties>
-   <property name="resource" value="Items1"/>
+   <property name="resource" value="Key"/>
   </properties>
   <image width="8" height="8" source="../objects/Key.png"/>
  </tile>
