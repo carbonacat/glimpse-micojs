@@ -20,8 +20,12 @@ class Item
         if (!Character_currentItem)
         {
             this._canBeInteractedWith = Character_checkInteractable(this, DOOR_INTERACTION_DISTANCE);
-            if (this._canBeInteractedWith)
-                Character_onCanInteractWith(this);
+            if (this._canBeInteractedWith && Character__actingB)
+            {
+                Character_currentItem = this.spriteRes;
+                this._deleteMe = true;
+                Character__actingB = false;
+            }
         }
         return this._deleteMe;
     }
@@ -33,13 +37,7 @@ class Item
         
         image(this.spriteRes, x, y - 4);
         if (this._canBeInteractedWith)
-            image(R.Buttons1, x, y - DOOR_TO_STATUS_Y - ticker_4);
-    }
-
-    interact()
-    {
-        Character_currentItem = this.spriteRes;
-        this._deleteMe = true;
+            image(R.Buttons2, x, y - DOOR_TO_STATUS_Y - ticker_4);
     }
 }
 

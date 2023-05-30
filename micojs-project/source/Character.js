@@ -30,7 +30,9 @@ let Character_x;
 let Character_y;
 
 let Character__lastA;
-let Character__acting;
+let Character__actingA;
+let Character__lastB;
+let Character__actingB;
 
 let Character__subAnimIndex;
 let Character__mirrored;
@@ -47,7 +49,9 @@ function Character__init(x, y)
     Character_y = y;
 
     Character__lastA = A;
-    Character__acting = false;
+    Character__actingA = false;
+    Character__lastB = B;
+    Character__actingB = false;
 
     Character__subAnimIndex = 0;
     Character__mirrored = false;
@@ -119,23 +123,36 @@ function Character__update()
     Character__subAnimIndex = subAnimIndex;
     Character__rightLegIndex = rightLegIndex;
     Character__leftLegIndex = leftLegIndex;
-
     
     if (A != Character__lastA)
     {
         Character__lastA = A;
-        Character__acting = A;
+        Character__actingA = A;
     }
     else
-        Character__acting = false;
+        Character__actingA = false;
+    if (B != Character__lastB)
+    {
+        Character__lastB = B;
+        Character__actingB = B;
+    }
+    else
+        Character__actingB = false;
+    
+    if (Character_currentItem && Character__actingB)
+    {
+        new Item(Character_x, Character_y, Character_currentItem);
+        Character_currentItem = null;
+        Character__actingB = false;
+    }
 }
 
 function Character_onCanInteractWith(entity)
 {
-    if (Character__acting)
+    if (Character__actingA)
     {
         entity.interact();
-        Character__acting = false;
+        Character__actingA = false;
     }
 }
 
@@ -144,7 +161,7 @@ function Character_checkInteractable(entity, radius)
     let toCharacterX = abs(entity.x - Character_x);
     let toCharacterY = abs(entity.y - Character_y);
     
-    return max(toCharacterX, toCharacterY) < DOOR_INTERACTION_DISTANCE;
+    return max(toCharacterX, toCharacterY) < radius;
 }
 
 
