@@ -13,7 +13,7 @@ class Item {
         Scene_add(this);
     }
 
-    update(time) {
+    update() {
         let toCharacterX = abs(this.x - Character_x);
         let toCharacterY = abs(this.y - Character_y);
         
