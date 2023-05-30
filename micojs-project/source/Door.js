@@ -11,7 +11,7 @@ class Door
         this.x = initX;
         this.y = initY;
         this._canBeInteractedWith = false;
-        this.setOpened(opened);
+        this._render = opened ? Door_renderOpenDoor : Door_renderClosedDoor;
 
         Scene_add(this);
     }
@@ -23,7 +23,20 @@ class Door
         
         this._canBeInteractedWith = max(toCharacterX, toCharacterY) < DOOR_INTERACTION_DISTANCE;
         if (this._canBeInteractedWith)
-            Character_onDoorNearby(this);
+        {
+            if (this._render != Door_renderOpenDoor)
+            {
+                // TODO: Door collision might be more for Door.js.
+                const relY = this.y - Character_y;
+
+                if (abs(relY) < DOOR_RADIUS_Y + CHARACTER_RADIUS)
+                {
+                    if (relY <= 0) Character_y++;
+                    else Character_y--;
+                }
+            }
+            Character_onCanInteractWith(this);
+        }
     }
 
     render()
@@ -39,14 +52,9 @@ class Door
             image(R.Buttons1, x, y - DOOR_TO_STATUS_Y - ticker_4);
     }
 
-    setOpened(opened)
+    interact()
     {
-        this._render = opened ? Door_renderOpenDoor : Door_renderClosedDoor;
-    }
-
-    isOpened()
-    {
-        return this._render == Door_renderOpenDoor;
+        this._render = (this._render == Door_renderOpenDoor) ? Door_renderClosedDoor : Door_renderOpenDoor;
     }
 }
 

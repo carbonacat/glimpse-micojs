@@ -19,7 +19,7 @@ class Item {
         
         this._canBeInteractedWith = max(toCharacterX, toCharacterY) < DOOR_INTERACTION_DISTANCE;
         if (this._canBeInteractedWith)
-            Character_onItemNearby(this);
+            Character_onCanInteractWith(this);
         return this._deleteMe;
     }
 
@@ -32,7 +32,7 @@ class Item {
             image(R.Buttons1, x, y - DOOR_TO_STATUS_Y - ticker_4);
     }
 
-    pickup() {
+    interact() {
         this._deleteMe = true;
     }
 }

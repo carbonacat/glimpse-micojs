@@ -128,31 +128,11 @@ function Character__update()
         Character__acting = false;
 }
 
-function Character_onDoorNearby(door)
-{
-    if (!door.isOpened())
-    {
-        // TODO: Door collision might be more for Door.js.
-        const relY = door.y - Character_y;
-
-        if (abs(relY) < DOOR_RADIUS_Y + CHARACTER_RADIUS)
-        {
-            if (relY <= 0) Character_y++;
-            else Character_y--;
-        }
-    }
-    if (Character__acting)
-    {
-        door.setOpened(!door.isOpened());
-        Character__acting = false;
-    }
-}
-
-function Character_onItemNearby(item)
+function Character_onCanInteractWith(entity)
 {
     if (Character__acting)
     {
-        item.pickup();
+        entity.interact();
         Character__acting = false;
     }
 }
