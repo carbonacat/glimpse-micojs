@@ -2,8 +2,10 @@
 
 const ITEM_INTERACTION_DISTANCE = 4;
 
-class Item {
-    constructor(x, y, spriteRes) {
+class Item
+{
+    constructor(x, y, spriteRes)
+    {
         this.x = x;
         this.y = y;
         this.spriteRes = spriteRes;
@@ -13,14 +15,19 @@ class Item {
         Scene_add(this);
     }
 
-    update() {
-        this._canBeInteractedWith = Character_checkInteractable(this, DOOR_INTERACTION_DISTANCE);
-        if (this._canBeInteractedWith)
-            Character_onCanInteractWith(this);
+    update()
+    {
+        if (!Character_currentItem)
+        {
+            this._canBeInteractedWith = Character_checkInteractable(this, DOOR_INTERACTION_DISTANCE);
+            if (this._canBeInteractedWith)
+                Character_onCanInteractWith(this);
+        }
         return this._deleteMe;
     }
 
-    render() {
+    render()
+    {
         var x = this.x - Scene_cameraX;
         var y = this.y - Scene_cameraY;
         
@@ -29,7 +36,9 @@ class Item {
             image(R.Buttons1, x, y - DOOR_TO_STATUS_Y - ticker_4);
     }
 
-    interact() {
+    interact()
+    {
+        Character_currentItem = this.spriteRes;
         this._deleteMe = true;
     }
 }

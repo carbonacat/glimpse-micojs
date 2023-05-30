@@ -36,6 +36,7 @@ let Character__subAnimIndex;
 let Character__mirrored;
 let Character__leftLegIndex;
 let Character__rightLegIndex;
+let Character_currentItem;
 
 
 // // LIFECYCLE.
@@ -52,6 +53,7 @@ function Character__init(x, y)
     Character__mirrored = false;
     Character__leftLegIndex = 0;
     Character__rightLegIndex = 0;
+    Character_currentItem = null;
 }
 
 function Character__update()
@@ -279,6 +281,8 @@ function Character__render()
     image(R.CharacterTorso, x + Character__mirroredXOffset(1), y - 8 + TorsoYOffset[Character__leftLegIndex]);
     image(R.CharacterHeads, x, y - 15 + HeadYOffset[Character__leftLegIndex]);
     image(CharacterArms[Character__leftLegIndex], x + Character__mirroredXOffset(-1), y - 9 + TorsoYOffset[Character__leftLegIndex]);
+    if (Character_currentItem)
+        image(Character_currentItem, x + Character__mirroredXOffset(Character_ItemOffsetX[Character__rightLegIndex]), y + Character_ItemOffsetY[Character__rightLegIndex]);
     setMirrored(false);
 }
 
@@ -300,3 +304,5 @@ const CharacterArms =
 ];
 const TorsoYOffset = [0, 0, 0, 1, 1, 0, 0, 0, 1, 1];
 const HeadYOffset = [0, 0, 1, 1, 0, 0, 0, 1, 1, 0];
+const Character_ItemOffsetX = [0+1, 1+1, 2+1, 2+1, 1+1, 0+1, -1+1, -2+1, -2+1, -1+1];
+const Character_ItemOffsetY = [0-8, 0-8, 1-8, 2-8, 2-8, 2-8, 2-8, 1-8, 0-8, 0-8];
