@@ -53,14 +53,10 @@ class Door
 
 function Door_renderClosedDoor(x, y)
 {
-    setPen(0);
-    setMirrored(false);
     image(R.MetalDoor1, x-1, y-8);
 }
 
 function Door_renderOpenDoor(x, y)
 {
-    setPen(0);
-    setMirrored(false);
     image(R.MetalDoor2, x-1, y-8);
 }

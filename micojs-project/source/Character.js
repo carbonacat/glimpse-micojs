@@ -274,7 +274,7 @@ function Character__render()
     // For the area.
     // setPen(128, 128, 128);
     // rect(Character_x - 3, Character_y - 3, 7, 7);
-    setPen(0);
+    // setPen(0);
     setMirrored(Character__mirrored);
     image(CharacterLegs[Character__leftLegIndex], x + Character__mirroredXOffset(+1), y - 2);
     image(CharacterLegs[Character__rightLegIndex], x + Character__mirroredXOffset(-1), y - 2);
@@ -282,6 +282,7 @@ function Character__render()
     image(R.CharacterTorso, x + Character__mirroredXOffset(1), y - 8 + TorsoYOffset[Character__leftLegIndex]);
     image(R.CharacterHeads, x, y - 15 + HeadYOffset[Character__leftLegIndex]);
     image(CharacterArms[Character__leftLegIndex], x + Character__mirroredXOffset(-1), y - 9 + TorsoYOffset[Character__leftLegIndex]);
+    setMirrored(false);
 }
 
 function Character__mirroredXOffset(offset)

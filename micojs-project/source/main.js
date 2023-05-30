@@ -42,6 +42,7 @@ function update(time) {
 function render() {
     setPen(bgColor);
     clear();
+    setPen(0);
     
     Scene_render();
     Watch_render();
