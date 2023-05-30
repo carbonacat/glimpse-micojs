@@ -6,12 +6,13 @@ const DOOR_RADIUS_Y = 1;
 
 class Door
 {
-    constructor(initX, initY, opened)
+    constructor(initX, initY, opened, expectedKey)
     {
         this.x = initX;
         this.y = initY;
         this._canBeInteractedWith = false;
         this._render = opened ? Door_renderOpenDoor : Door_renderClosedDoor;
+        this._expectedKey = expectedKey;
 
         Scene_add(this);
     }
@@ -32,7 +33,8 @@ class Door
                     else Character_y--;
                 }
             }
-            Character_onCanInteractWith(this);
+            if ((this._expectedKey == null) || (this._expectedKey == Character_currentItem))
+                Character_onCanInteractWith(this);
         }
     }
 
@@ -46,7 +48,11 @@ class Door
         // rect(x - 8, y - DOOR_RADIUS_Y, 16, DOOR_RADIUS_Y * 2);
         this._render(x, y);
         if (this._canBeInteractedWith)
+        {
             image(R.Buttons1, x, y - DOOR_TO_STATUS_Y - ticker_4);
+            if ((this._expectedKey != null) && (this._expectedKey != Character_currentItem))
+                image(this._expectedKey, x, y - DOOR_TO_STATUS_Y - ticker_4);
+        }
     }
 
     interact()
