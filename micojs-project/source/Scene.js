@@ -4,11 +4,9 @@
 "include /source/Door.js";
 "include /source/tools.js";
 
-const Scene__CAPACITY = 32;
-const Scene__renderList = new Array(Scene__CAPACITY);
-let Scene__renderCount;
-const Scene__updateList = new Array(Scene__CAPACITY);
-let Scene__updateCount;
+const Scene__CAPACITY = 64;
+const Scene__entities = new Array(Scene__CAPACITY);
+let Scene__entitiesCount;
 let Scene__enabled;
 let Scene_cameraX;
 let Scene_cameraY;
@@ -21,10 +19,8 @@ function Scene_init()
     Scene_screenWidth = getWidth();
     Scene_screenHeight = getHeight();
 
-    Scene__updateList.fill(null);
-    Scene__updateCount = 0;
-    Scene__renderList.fill(null);
-    Scene__renderCount = 0;
+    Scene__entities.fill(null);
+    Scene__entitiesCount = 0;
 
     // Scene here.
  
@@ -39,6 +35,11 @@ function Scene_init()
     new Door(216, 49, false);
 
     new Door(68, 97, false);
+
+    // new Item(180, 72, R.Items2);
+    // new Item(196, 72, R.Items4);
+    // new Item(180, 88, R.Items3);
+    // new Item(196, 72, R.Items1);
 }
 
 function Scene_update()
@@ -46,32 +47,21 @@ function Scene_update()
     CAMERA_X = 0;
     CAMERA_Y = 0;
     if (!Scene__enabled) return ;
-    for (let i = 0; i < Scene__updateCount; i++)
-        Scene__updateList[i].update();
+    for (let i = 0; i < Scene__entitiesCount; i++)
+        Scene__entities[i].update();
     Scene_cameraX = max(0, min(Character_x - Scene_screenWidth / 2, 320 - Scene_screenWidth));
     Scene_cameraY = max(0, min(Character_y - Scene_screenHeight / 2, 320 - Scene_screenHeight));
 }
 
-function Scene_addUpdateItem(item) 
+function Scene_add(entity) 
 {
-    if (Scene__updateCount < Scene__CAPACITY)
+    if (Scene__entitiesCount < Scene__CAPACITY)
     {
-        Scene__updateList[Scene__updateCount] = item;
-        Scene__updateCount++;
+        Scene__entities[Scene__entitiesCount] = entity;
+        Scene__entitiesCount++;
     }
     else
         debug("CRIT - UpdateList full!");
-}
-
-function Scene_addRenderItem(item)
-{
-    if (Scene__renderCount < Scene__CAPACITY)
-    {
-        Scene__renderList[Scene__renderCount] = item;
-        Scene__renderCount++;
-    }
-    else
-        debug("CRIT - RenderList full!");
 }
 
 function Scene_render()
@@ -86,14 +76,14 @@ function Scene_render()
     CAMERA_Y = Scene_cameraY;
     setTileMap(R.LeafMap);
     
-    for (let i = 1; i < Scene__renderCount; i++)
-        if (Scene__renderList[i - 1].y > Scene__renderList[i].y)
+    for (let i = 1; i < Scene__entitiesCount; i++)
+        if (Scene__entities[i - 1].y > Scene__entities[i].y)
         {
-            let tmp = Scene__renderList[i - 1];
+            let tmp = Scene__entities[i - 1];
 
-            Scene__renderList[i - 1] = Scene__renderList[i];
-            Scene__renderList[i] = tmp;
+            Scene__entities[i - 1] = Scene__entities[i];
+            Scene__entities[i] = tmp;
         }
-    for (let i = 0; i < Scene__renderCount; i++)
-        Scene__renderList[i].render();
+    for (let i = 0; i < Scene__entitiesCount; i++)
+        Scene__entities[i].render();
 }

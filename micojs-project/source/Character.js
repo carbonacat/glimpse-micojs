@@ -9,8 +9,8 @@ class Character
         this.x = x;
         this.y = y;
         Character__init(x, y);
-        Scene_addUpdateItem(this);
-        Scene_addRenderItem(this);
+
+        Scene_add(this);
     }
 
     update()

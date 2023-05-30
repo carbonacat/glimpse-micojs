@@ -13,8 +13,7 @@ class Door
         this._canBeInteractedWith = false;
         this.setOpened(opened);
 
-        Scene_addUpdateItem(this);
-        Scene_addRenderItem(this);
+        Scene_add(this);
     }
 
     update()
