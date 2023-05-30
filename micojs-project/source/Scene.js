@@ -2,6 +2,7 @@
 
 "include /source/Character.js";
 "include /source/Door.js";
+"include /source/Item.js";
 "include /source/tools.js";
 
 const Scene__CAPACITY = 64;
@@ -36,10 +37,10 @@ function Scene_init()
 
     new Door(68, 97, false);
 
-    // new Item(180, 72, R.Items2);
-    // new Item(196, 72, R.Items4);
-    // new Item(180, 88, R.Items3);
-    // new Item(196, 72, R.Items1);
+    new Item(180, 72, R.Items2);
+    new Item(196, 72, R.Items4);
+    new Item(180, 88, R.Items3);
+    new Item(196, 88, R.Items1);
 }
 
 function Scene_update()
