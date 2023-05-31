@@ -13,7 +13,7 @@ class Goal
     {
         this.x = initX;
         this.y = initY + Goal_DEPTH_OFFSET_Y;
-        this._render = Goal_renderInactive;
+        this._render = Goal_renderActive; // Temporary!
         this._frameIndex = 0;
 
         Scene_add(this);
@@ -22,10 +22,8 @@ class Goal
     update()
     {
         this.y -= Goal_DEPTH_OFFSET_Y;
-        if (Character_checkInteractable(this, Goal_INTERACTION_DISTANCE) && (this._render == Goal_renderInactive))
-        {
-            this._render = Goal_renderActive;
-        }
+        if (Character_checkInteractable(this, Goal_INTERACTION_DISTANCE) && (this._render == Goal_renderActive))
+            Ending_init();
         this.y += Goal_DEPTH_OFFSET_Y;
     }
 
