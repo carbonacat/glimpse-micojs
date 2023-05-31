@@ -1,6 +1,9 @@
 // Item.js
 
-const ITEM_INTERACTION_DISTANCE = 4;
+const Item_INTERACTION_DISTANCE = 4;
+const Item_RENDER_OFFSETY = -2;
+const Item_TILED_OFFSETX = 0;
+const Item_TILED_OFFSETY = -2;
 
 class Item
 {
@@ -19,7 +22,7 @@ class Item
     {
         if (!Character_currentItem)
         {
-            this._canBeInteractedWith = Character_checkInteractable(this, DOOR_INTERACTION_DISTANCE);
+            this._canBeInteractedWith = Character_checkInteractable(this, Item_INTERACTION_DISTANCE);
             if (this._canBeInteractedWith && Character__actingB)
             {
                 Character_currentItem = this.spriteRes;
@@ -35,7 +38,8 @@ class Item
         var x = this.x - Scene_cameraX;
         var y = this.y - Scene_cameraY;
         
-        image(this.spriteRes, x, y - 4);
+        // rect(x - Item_INTERACTION_DISTANCE, y - Item_INTERACTION_DISTANCE, Item_INTERACTION_DISTANCE*2, Item_INTERACTION_DISTANCE*2);
+        image(this.spriteRes, x, y+Item_RENDER_OFFSETY);
         if (this._canBeInteractedWith)
             image(R.Buttons2, x, y - DOOR_TO_STATUS_Y - ticker_4);
     }

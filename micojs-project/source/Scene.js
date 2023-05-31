@@ -37,10 +37,12 @@ function Scene_init()
 
     new Door(68, 97, false);
 
-    new Item(180, 72, R.Screwdriver);
-    new Item(196, 72, R.Batteries);
-    new Item(180, 88, R.Gear);
-    new Item(196, 88, R.Key);
+    new Item(180+Item_TILED_OFFSETX, 72+Item_TILED_OFFSETY, R.Screwdriver);
+    new Item(196+Item_TILED_OFFSETX, 72+Item_TILED_OFFSETY, R.Batteries);
+    new Item(180+Item_TILED_OFFSETX, 88+Item_TILED_OFFSETY, R.Gear);
+    new Item(196+Item_TILED_OFFSETX, 88+Item_TILED_OFFSETY, R.Key);
+
+    // new Goal(142, 92);
 }
 
 function Scene_update()
