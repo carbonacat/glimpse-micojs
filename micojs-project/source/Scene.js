@@ -3,6 +3,7 @@
 "include /source/Character.js";
 "include /source/Door.js";
 "include /source/Item.js";
+"include /source/Goal.js";
 "include /source/tools.js";
 
 const Scene__CAPACITY = 64;
@@ -42,7 +43,8 @@ function Scene_init()
     new Item(180+Item_TILED_OFFSETX, 88+Item_TILED_OFFSETY, R.Gear);
     new Item(196+Item_TILED_OFFSETX, 88+Item_TILED_OFFSETY, R.Key);
 
-    // new Goal(142, 92);
+    new Goal(142+Goal_TILED_OFFSET_X, 92+Goal_TILED_OFFSET_Y);
+    new Goal(285+Goal_TILED_OFFSET_X, 210+Goal_TILED_OFFSET_Y);
 }
 
 function Scene_update()
