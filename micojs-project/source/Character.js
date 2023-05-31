@@ -171,17 +171,17 @@ function Character__attemptLeft(slide)
 {
     Character_x--;
 
-    const up = getTileProperty(Character_x - CHARACTER_RADIUS, Character_y - CHARACTER_RADIUS, "collides");
-    const down = getTileProperty(Character_x - CHARACTER_RADIUS, Character_y + CHARACTER_RADIUS, "collides");
+    const up = getTileProperty(Character_x - CHARACTER_RADIUS, Character_y - CHARACTER_RADIUS, "canPass");
+    const down = getTileProperty(Character_x - CHARACTER_RADIUS, Character_y + CHARACTER_RADIUS, "canPass");
 
-    if (up || down)
+    if (!(up && down))
     {
         Character_x++;
         if (slide)
         {
-            if (!up)
+            if (up)
                 Character__attemptUp();
-            else if (!down)
+            else if (down)
                 Character__attemptDown();
         }
         return false;
@@ -193,17 +193,17 @@ function Character__attemptRight(slide)
 {
     Character_x++;
 
-    const up = getTileProperty(Character_x + CHARACTER_RADIUS, Character_y - CHARACTER_RADIUS, "collides");
-    const down = getTileProperty(Character_x + CHARACTER_RADIUS, Character_y + CHARACTER_RADIUS, "collides");
+    const up = getTileProperty(Character_x + CHARACTER_RADIUS, Character_y - CHARACTER_RADIUS, "canPass");
+    const down = getTileProperty(Character_x + CHARACTER_RADIUS, Character_y + CHARACTER_RADIUS, "canPass");
 
-    if (up || down)
+    if (!(up && down))
     {
         Character_x--;
         if (slide)
         {
-            if (!up)
+            if (up)
                 Character__attemptUp();
-            else if (!down)
+            else if (down)
                 Character__attemptDown();
         }
         return false;
@@ -215,17 +215,17 @@ function Character__attemptUp(slide)
 {
     Character_y--;
 
-    const left = getTileProperty(Character_x - CHARACTER_RADIUS, Character_y - CHARACTER_RADIUS, "collides");
-    const right = getTileProperty(Character_x + CHARACTER_RADIUS, Character_y - CHARACTER_RADIUS, "collides");
+    const left = getTileProperty(Character_x - CHARACTER_RADIUS, Character_y - CHARACTER_RADIUS, "canPass");
+    const right = getTileProperty(Character_x + CHARACTER_RADIUS, Character_y - CHARACTER_RADIUS, "canPass");
 
-    if (left || right)
+    if (!(left && right))
     {
         Character_y++;
         if (slide)
         {
-            if (!left)
+            if (left)
                 Character__attemptLeft();
-            else if (!right)
+            else if (right)
                 Character__attemptRight();
         }
         return false;
@@ -237,17 +237,17 @@ function Character__attemptDown(slide)
 {
     Character_y++;
 
-    const left = getTileProperty(Character_x - CHARACTER_RADIUS, Character_y + CHARACTER_RADIUS, "collides");
-    const right = getTileProperty(Character_x + CHARACTER_RADIUS, Character_y + CHARACTER_RADIUS, "collides");
+    const left = getTileProperty(Character_x - CHARACTER_RADIUS, Character_y + CHARACTER_RADIUS, "canPass");
+    const right = getTileProperty(Character_x + CHARACTER_RADIUS, Character_y + CHARACTER_RADIUS, "canPass");
 
-    if (left || right)
+    if (!(left && right))
     {
         Character_y--;
         if (slide)
         {
-            if (!left)
+            if (left)
                 Character__attemptLeft();
-            else if (!right)
+            else if (right)
                 Character__attemptRight();
         }
         return false;
