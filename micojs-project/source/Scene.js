@@ -2,11 +2,12 @@
 
 "include /source/Character.js";
 "include /source/Door.js";
-"include /source/Item.js";
 "include /source/Goal.js";
+"include /source/Item.js";
+"include /source/Lever.js";
 "include /source/tools.js";
 
-const Scene__CAPACITY = 64;
+const Scene__CAPACITY = 32;
 const Scene__entities = new Array(Scene__CAPACITY);
 let Scene__entitiesCount;
 let Scene__enabled;
@@ -26,25 +27,40 @@ function Scene_init()
 
     // Scene here.
  
-    new Character(24, 168);
+    {
+        new Character(24, 168);
 
-    new Door(100, 41, false, R.Key);
+        new Door(100, 41, false, R.Key);
+    }
 
-    new Door(120+Door_TILED_OFFSET_X, 49+Door_TILED_OFFSET_Y, true);
-    new Door(144+Door_TILED_OFFSET_X, 49+Door_TILED_OFFSET_Y, false);
-    new Door(168+Door_TILED_OFFSET_X, 49+Door_TILED_OFFSET_Y, false);
-    new Door(192+Door_TILED_OFFSET_X, 49+Door_TILED_OFFSET_Y, false);
-    new Door(216+Door_TILED_OFFSET_X, 49+Door_TILED_OFFSET_Y, false);
+    {
+        new Door(120+Door_TILED_OFFSET_X, 49+Door_TILED_OFFSET_Y, true);
+        new Door(144+Door_TILED_OFFSET_X, 49+Door_TILED_OFFSET_Y, false);
+        new Door(168+Door_TILED_OFFSET_X, 49+Door_TILED_OFFSET_Y, false);
+        new Door(192+Door_TILED_OFFSET_X, 49+Door_TILED_OFFSET_Y, false);
+        new Door(216+Door_TILED_OFFSET_X, 49+Door_TILED_OFFSET_Y, false);
+    }
 
-    new Door(68+Door_TILED_OFFSET_X, 97+Door_TILED_OFFSET_Y, false);
+    {
+        let door = new Door(68+Door_TILED_OFFSET_X, 97+Door_TILED_OFFSET_Y, false, R.LeverRight);
+        
+        new Lever(44+Lever_TILED_OFFSET_X, 98+Lever_TILED_OFFSET_Y, false, R.Gear, door);
+    }
+    {
+        new Lever(28+Lever_TILED_OFFSET_X, 98+Lever_TILED_OFFSET_Y, true, null, null);
+    }
 
-    new Item(180+Item_TILED_OFFSETX, 72+Item_TILED_OFFSETY, R.Screwdriver);
-    new Item(196+Item_TILED_OFFSETX, 72+Item_TILED_OFFSETY, R.Batteries);
-    new Item(180+Item_TILED_OFFSETX, 88+Item_TILED_OFFSETY, R.Gear);
-    new Item(196+Item_TILED_OFFSETX, 88+Item_TILED_OFFSETY, R.Key);
+    {
+        new Item(180+Item_TILED_OFFSETX, 72+Item_TILED_OFFSETY, R.Screwdriver);
+        new Item(196+Item_TILED_OFFSETX, 72+Item_TILED_OFFSETY, R.Batteries);
+        new Item(180+Item_TILED_OFFSETX, 88+Item_TILED_OFFSETY, R.Gear);
+        new Item(196+Item_TILED_OFFSETX, 88+Item_TILED_OFFSETY, R.Key);
+    }
 
-    new Goal(142+Goal_TILED_OFFSET_X, 92+Goal_TILED_OFFSET_Y);
-    new Goal(285+Goal_TILED_OFFSET_X, 210+Goal_TILED_OFFSET_Y);
+    {
+        new Goal(142+Goal_TILED_OFFSET_X, 92+Goal_TILED_OFFSET_Y);
+        new Goal(285+Goal_TILED_OFFSET_X, 210+Goal_TILED_OFFSET_Y);
+    }
 }
 
 function Scene_update()
@@ -62,6 +78,16 @@ function Scene_update()
         }
     Scene_cameraX = max(0, min(Character_x - Scene_screenWidth / 2, 320 - Scene_screenWidth));
     Scene_cameraY = max(0, min(Character_y - Scene_screenHeight / 2, 320 - Scene_screenHeight));
+
+    // Sorts by y.
+    for (let i = 1; i < Scene__entitiesCount; i++)
+        if (Scene__entities[i - 1].y > Scene__entities[i].y)
+        {
+            let tmp = Scene__entities[i - 1];
+
+            Scene__entities[i - 1] = Scene__entities[i];
+            Scene__entities[i] = tmp;
+        }
 }
 
 function Scene_add(entity) 
@@ -86,15 +112,7 @@ function Scene_render()
     CAMERA_X = Scene_cameraX;
     CAMERA_Y = Scene_cameraY;
     setTileMap(R.LeafMap);
-    
-    for (let i = 1; i < Scene__entitiesCount; i++)
-        if (Scene__entities[i - 1].y > Scene__entities[i].y)
-        {
-            let tmp = Scene__entities[i - 1];
 
-            Scene__entities[i - 1] = Scene__entities[i];
-            Scene__entities[i] = tmp;
-        }
     for (let i = 0; i < Scene__entitiesCount; i++)
         Scene__entities[i].render();
 }

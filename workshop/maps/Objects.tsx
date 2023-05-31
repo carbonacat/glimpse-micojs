@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.10" tiledversion="1.10.1" name="Objects" tilewidth="16" tileheight="20" tilecount="6" columns="0" objectalignment="bottom">
+<tileset version="1.10" tiledversion="1.10.1" name="Objects" tilewidth="16" tileheight="20" tilecount="8" columns="0" objectalignment="bottom">
  <grid orientation="orthogonal" width="1" height="1"/>
  <tile id="1">
   <image width="16" height="20" source="../objects/MetalDoor.png"/>
@@ -30,5 +30,19 @@
  </tile>
  <tile id="6">
   <image width="12" height="11" source="../objects/Goal.png"/>
+ </tile>
+ <tile id="9">
+  <properties>
+   <property name="resource" value="LeverLeft"/>
+   <property name="target" type="object" value="0"/>
+  </properties>
+  <image width="10" height="12" source="../objects/LeverLeft.png"/>
+ </tile>
+ <tile id="10">
+  <properties>
+   <property name="resource" value="LeverRight"/>
+   <property name="target" type="object" value="0"/>
+  </properties>
+  <image width="10" height="12" source="../objects/LeverRight.png"/>
  </tile>
 </tileset>
