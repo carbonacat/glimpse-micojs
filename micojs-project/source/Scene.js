@@ -26,7 +26,7 @@ function Scene_init()
 
     // Scene here.
  
-    new Character(50, 50);
+    new Character(24, 168);
 
     new Door(100, 41, false, R.Key);
 
