@@ -4,6 +4,7 @@ const Item_INTERACTION_DISTANCE = 4;
 const Item_RENDER_OFFSETY = -2;
 const Item_TILED_OFFSETX = 0;
 const Item_TILED_OFFSETY = -2;
+const Item_TO_STATUS_Y = 24;
 
 class Item
 {
@@ -38,10 +39,14 @@ class Item
         var x = this.x - Scene_cameraX;
         var y = this.y - Scene_cameraY;
         
+        // For the area.
+        // setPen(255, 0, 255);
         // rect(x - Item_INTERACTION_DISTANCE, y - Item_INTERACTION_DISTANCE, Item_INTERACTION_DISTANCE*2, Item_INTERACTION_DISTANCE*2);
+        // setPen(0);
+
         image(this.spriteRes, x, y+Item_RENDER_OFFSETY);
         if (this._canBeInteractedWith)
-            image(R.Buttons2, x, y - DOOR_TO_STATUS_Y - ticker_4);
+            image(R.Buttons2, x, y - Item_TO_STATUS_Y - ticker_4);
     }
 }
 

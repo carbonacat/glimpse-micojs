@@ -1,8 +1,12 @@
 // Door.js
 
-const DOOR_INTERACTION_DISTANCE = 8;
-const DOOR_TO_STATUS_Y = 24;
-const DOOR_RADIUS_Y = 1;
+const Door_TILED_OFFSET_X = 0;
+const Door_TILED_OFFSET_Y = 0;
+const Door_INTERACTION_DISTANCE = 8;
+const Door_TO_STATUS_Y = 24;
+const Door_RADIUS_Y = 1;
+const Door_RENDER_OFFSET_X = -1;
+const Door_RENDER_OFFSET_Y = -8;
 
 class Door
 {
@@ -19,7 +23,7 @@ class Door
 
     update()
     {
-        this._canBeInteractedWith = Character_checkInteractable(this, DOOR_INTERACTION_DISTANCE);
+        this._canBeInteractedWith = Character_checkInteractable(this, Door_INTERACTION_DISTANCE);
         if (this._canBeInteractedWith)
         {
             if (this._render != Door_renderOpenDoor)
@@ -27,7 +31,7 @@ class Door
                 // TODO: Door collision might be more for Door.js.
                 const relY = this.y - Character_y;
 
-                if (abs(relY) < DOOR_RADIUS_Y + CHARACTER_RADIUS)
+                if (abs(relY) < Door_RADIUS_Y + CHARACTER_RADIUS)
                 {
                     if (relY <= 0) Character_y++;
                     else Character_y--;
@@ -44,14 +48,18 @@ class Door
         var y = this.y - Scene_cameraY;
         
         // For the area.
-        // setPen(255, 0, 0);
-        // rect(x - 8, y - DOOR_RADIUS_Y, 16, DOOR_RADIUS_Y * 2);
+        // setPen(255, 0, 255);
+        // rect(x - Door_INTERACTION_DISTANCE, y - Door_INTERACTION_DISTANCE, Door_INTERACTION_DISTANCE*2, Door_INTERACTION_DISTANCE*2);
+        // setPen(0, 255, 255);
+        // rect(x - Door_INTERACTION_DISTANCE, y - Door_RADIUS_Y, Door_INTERACTION_DISTANCE*2, Door_RADIUS_Y * 2);
+        // setPen(0);
+
         this._render(x, y);
         if (this._canBeInteractedWith)
         {
-            image(R.Buttons1, x, y - DOOR_TO_STATUS_Y - ticker_4);
+            image(R.Buttons1, x, y - Door_TO_STATUS_Y - ticker_4);
             if ((this._expectedKey != null) && (this._expectedKey != Character_currentItem))
-                image(this._expectedKey, x, y - DOOR_TO_STATUS_Y - ticker_4);
+                image(this._expectedKey, x, y - Door_TO_STATUS_Y - ticker_4);
         }
     }
 
@@ -63,10 +71,10 @@ class Door
 
 function Door_renderClosedDoor(x, y)
 {
-    image(R.MetalDoor1, x-1, y-8);
+    image(R.MetalDoor1, x+Door_RENDER_OFFSET_X, y+Door_RENDER_OFFSET_Y);
 }
 
 function Door_renderOpenDoor(x, y)
 {
-    image(R.MetalDoor2, x-1, y-8);
+    image(R.MetalDoor2, x+Door_RENDER_OFFSET_X, y+Door_RENDER_OFFSET_Y);
 }

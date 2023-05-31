@@ -29,13 +29,13 @@ function Scene_init()
 
     new Door(100, 41, false, R.Key);
 
-    new Door(120, 49, true);
-    new Door(144, 49, false);
-    new Door(168, 49, false);
-    new Door(192, 49, false);
-    new Door(216, 49, false);
+    new Door(120+Door_TILED_OFFSET_X, 49+Door_TILED_OFFSET_Y, true);
+    new Door(144+Door_TILED_OFFSET_X, 49+Door_TILED_OFFSET_Y, false);
+    new Door(168+Door_TILED_OFFSET_X, 49+Door_TILED_OFFSET_Y, false);
+    new Door(192+Door_TILED_OFFSET_X, 49+Door_TILED_OFFSET_Y, false);
+    new Door(216+Door_TILED_OFFSET_X, 49+Door_TILED_OFFSET_Y, false);
 
-    new Door(68, 97, false);
+    new Door(68+Door_TILED_OFFSET_X, 97+Door_TILED_OFFSET_Y, false);
 
     new Item(180+Item_TILED_OFFSETX, 72+Item_TILED_OFFSETY, R.Screwdriver);
     new Item(196+Item_TILED_OFFSETX, 72+Item_TILED_OFFSETY, R.Batteries);
