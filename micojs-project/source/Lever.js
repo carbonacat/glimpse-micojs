@@ -9,7 +9,7 @@ const Lever_RENDER_OFFSET_Y = -3;
 class Lever
 {
     // If onLeft is true, the lever is pointing to left.
-    constructor(initX, initY, onLeft, expectedKey, target)
+    constructor(initX, initY, onLeft, expectedKey = null, target = null)
     {
         this.x = initX;
         this.y = initY;

@@ -47,7 +47,7 @@ function Scene_init()
         new Lever(44+Lever_TILED_OFFSET_X, 98+Lever_TILED_OFFSET_Y, false, R.Gear, door);
     }
     {
-        new Lever(28+Lever_TILED_OFFSET_X, 98+Lever_TILED_OFFSET_Y, true, null, null);
+        new Lever(28+Lever_TILED_OFFSET_X, 98+Lever_TILED_OFFSET_Y, true);
     }
 
     {

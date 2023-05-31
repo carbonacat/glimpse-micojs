@@ -10,7 +10,7 @@ const Door_RENDER_OFFSET_Y = -8;
 
 class Door
 {
-    constructor(initX, initY, opened, expectedKey)
+    constructor(initX, initY, opened = false, expectedKey = null)
     {
         this.x = initX;
         this.y = initY;
@@ -66,6 +66,11 @@ class Door
     interact()
     {
         this._render = (this._render == Door_renderOpenDoor) ? Door_renderClosedDoor : Door_renderOpenDoor;
+    }
+
+    setState(opened)
+    {
+        this._render = opened ? Door_renderOpenDoor : Door_renderClosedDoor;
     }
 }
 
