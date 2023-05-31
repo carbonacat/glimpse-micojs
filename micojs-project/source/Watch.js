@@ -10,7 +10,10 @@ const Watch__timeUnderColor = setPen(93, 87, 79);
 const Watch__BGColor = setPen(29, 43, 83);
 
 const Watch__MINUTES_INIT = 24;
-const Watch__SECONDS_BEFORE_INIT = 2;
+const Watch__MINUTES_BEFORE_INIT = 1;
+const Watch__IRLMILLIS_PER_MINUTES = 2000;
+const Watch__MINUTES_BEFORE_LOOP = 2;
+const Watch__MINUTES_BEFORE_BLACK = 1;
 
 let Watch__minutes;
 let Watch__lastSecondTime;
@@ -38,25 +41,25 @@ function Watch_init()
 function Watch_restart()
 {
     Watch__lastSecondTime = getTime();
-    Watch__minutes = Watch__MINUTES_INIT - Watch__SECONDS_BEFORE_INIT;
+    Watch__minutes = Watch__MINUTES_INIT - Watch__MINUTES_BEFORE_INIT;
 }
 
 function Watch_update()
 {
     let newTime = getTime();
 
-    if (newTime - Watch__lastSecondTime > 1000)
+    if (newTime - Watch__lastSecondTime > Watch__IRLMILLIS_PER_MINUTES)
     {
-        Watch__lastSecondTime += 1000;
+        Watch__lastSecondTime += Watch__IRLMILLIS_PER_MINUTES;
         Watch__minutes++;
-        if (Watch__minutes == 65)
+        if (Watch__minutes == 60 + Watch__MINUTES_BEFORE_LOOP)
             Game_startLoop();
     }
     Watch__x = Watch__targetX + (Watch__x - Watch__targetX) * 0.9375;
     Watch__y = Watch__targetY + (Watch__y - Watch__targetY) * 0.9375;
     if (Watch__minutes < Watch__MINUTES_INIT)
     {
-        if (A)
+        if (B)
         {
             Watch__minutes = Watch__MINUTES_INIT; // To skip the "intro".
             Watch__life = 8;
@@ -84,7 +87,7 @@ function Watch_update()
         Watch__targetX = getWidth() / 2;
         Watch__targetY = getHeight() / 2;
     }
-    else if (Watch__minutes < 62)
+    else if (Watch__minutes <= 60 + Watch__MINUTES_BEFORE_BLACK)
     {
         if (ticker_4 && Watch__life > 0) Watch__life--;
         Scene__enabled = ticker_1;

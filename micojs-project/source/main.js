@@ -1,7 +1,7 @@
 "push title Glimpse";
 "push author carbonacat";
-"push description Explore, investigate and try to shutdown the device which produce the timeloop you're stuck into!";
-"set version v0.0.1";
+"push description Escape the timeloop you're stuck in! A to activate, B to pick up/throw item. 1 item at a time.";
+"set version v1.0.0";
 "set category game";
 "set url https://micojs.github.com";
 

@@ -1,9 +1,10 @@
 // Item.js
 
-const Item_INTERACTION_DISTANCE = 4;
-const Item_RENDER_OFFSETY = -2;
-const Item_TILED_OFFSETX = 0;
-const Item_TILED_OFFSETY = -2;
+const Item_INTERACTION_DISTANCE = 6;
+const Item_RENDER_OFFSET_X = 0;
+const Item_RENDER_OFFSET_Y = -2;
+const Item_TILED_OFFSET_X = 0;
+const Item_TILED_OFFSET_Y = -2;
 const Item_TO_STATUS_Y = 24;
 
 class Item
@@ -44,7 +45,7 @@ class Item
         // rect(x - Item_INTERACTION_DISTANCE, y - Item_INTERACTION_DISTANCE, Item_INTERACTION_DISTANCE*2, Item_INTERACTION_DISTANCE*2);
         // setPen(0);
 
-        image(this.spriteRes, x, y+Item_RENDER_OFFSETY);
+        image(this.spriteRes, x+Item_RENDER_OFFSET_X, y+Item_RENDER_OFFSET_Y);
         if (this._canBeInteractedWith)
             image(R.Buttons2, x, y - Item_TO_STATUS_Y - ticker_4);
     }

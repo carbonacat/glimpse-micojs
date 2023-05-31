@@ -7,7 +7,7 @@
 "include /source/Lever.js";
 "include /source/tools.js";
 
-const Scene__CAPACITY = 32;
+const Scene__CAPACITY = 24;
 const Scene__entities = new Array(Scene__CAPACITY);
 let Scene__entitiesCount;
 let Scene__enabled;
@@ -26,40 +26,60 @@ function Scene_init()
     Scene__entitiesCount = 0;
 
     // Scene here.
+
+    // Portal Room.
+    {
+        let goalPortal = new Goal(285+Goal_TILED_OFFSET_X, 218+Goal_TILED_OFFSET_Y);
+
+        new Lever(284+Lever_TILED_OFFSET_X, 187+Lever_TILED_OFFSET_Y, false, R.Batteries, goalPortal);
+        new Door(284+Door_TILED_OFFSET_X, 257+Door_TILED_OFFSET_Y, false, R.GoldKey);
+    }
+
+    // Dark Room.
+    {
+        new Item(140+Item_TILED_OFFSET_X, 184+Item_TILED_OFFSET_Y, R.BlueKey);
+    }
+    // TODO: Supposed to have dark area, switched in by levers
+    // let darkArea = new DarkArea(119, 127, 42, 74);
  
+    // Lockers Room.
     {
-        new Character(24, 168);
-
-        new Door(100, 41, false, R.Key);
+        new Item(216+Item_TILED_OFFSET_X, 49+Item_TILED_OFFSET_Y, R.RedKey);
+        // TODO: Supposed to have dark area, switched in by levers
+        // new Lever(101+Lever_TILED_OFFSET_X, 128+Lever_TILED_OFFSET_Y, false, R.Screwdriver, darkArea);
+        new Item(144+Item_TILED_OFFSET_X, 49+Item_TILED_OFFSET_Y, R.Gear);
+        // TODO: Out of Memory! - new Item(168+Item_TILED_OFFSET_X, 49+Item_TILED_OFFSET_Y, R.Screwdriver);
+        new Door(216+Door_TILED_OFFSET_X, 50+Door_TILED_OFFSET_Y, false, R.BlueKey);
+        new Door(192+Door_TILED_OFFSET_X, 50+Door_TILED_OFFSET_Y, false, R.BlueKey);
+        // TODO: Out of Memory! - new Door(168+Door_TILED_OFFSET_X, 50+Door_TILED_OFFSET_Y, false, null);
+        new Door(144+Door_TILED_OFFSET_X, 50+Door_TILED_OFFSET_Y, false, R.RedKey);
+        // TODO: Out of Memory! - new Door(120+Door_TILED_OFFSET_X, 50+Door_TILED_OFFSET_Y, false, R.BlueKey);
     }
 
+    // Corridor next to Bedroom2
     {
-        new Door(120+Door_TILED_OFFSET_X, 49+Door_TILED_OFFSET_Y, true);
-        new Door(144+Door_TILED_OFFSET_X, 49+Door_TILED_OFFSET_Y, false);
-        new Door(168+Door_TILED_OFFSET_X, 49+Door_TILED_OFFSET_Y, false);
-        new Door(192+Door_TILED_OFFSET_X, 49+Door_TILED_OFFSET_Y, false);
-        new Door(216+Door_TILED_OFFSET_X, 49+Door_TILED_OFFSET_Y, false);
+        let goldKeyCloset = new Door(68+Door_TILED_OFFSET_X, 97+Door_TILED_OFFSET_Y, false, R.LeverRight);
+        new Item(68+Item_TILED_OFFSET_X, 93+Item_TILED_OFFSET_Y, R.GoldKey);
+        new Lever(44+Lever_TILED_OFFSET_X, 98+Lever_TILED_OFFSET_Y, false, R.Gear, goldKeyCloset);
     }
 
+    // Bedroom2
     {
-        let door = new Door(68+Door_TILED_OFFSET_X, 97+Door_TILED_OFFSET_Y, false, R.LeverRight);
-        
-        new Lever(44+Lever_TILED_OFFSET_X, 98+Lever_TILED_OFFSET_Y, false, R.Gear, door);
-    }
-    {
-        new Lever(28+Lever_TILED_OFFSET_X, 98+Lever_TILED_OFFSET_Y, true);
+        new Item(12+Item_TILED_OFFSET_X, 159+Item_TILED_OFFSET_Y, R.Key);
+        new Door(60+Door_TILED_OFFSET_X, 153+Door_TILED_OFFSET_Y, false, R.Key);
     }
 
+    // Bedroom1
     {
-        new Item(180+Item_TILED_OFFSETX, 72+Item_TILED_OFFSETY, R.Screwdriver);
-        new Item(196+Item_TILED_OFFSETX, 72+Item_TILED_OFFSETY, R.Batteries);
-        new Item(180+Item_TILED_OFFSETX, 88+Item_TILED_OFFSETY, R.Gear);
-        new Item(196+Item_TILED_OFFSETX, 88+Item_TILED_OFFSETY, R.Key);
+        new Character(22+Character_TILED_OFFSET_X, 237+Character_TILED_OFFSET_Y);
+        new Door(60+Door_TILED_OFFSET_X, 225+Door_TILED_OFFSET_Y);
     }
 
+    // Corridor leading to Portal Room
     {
-        new Goal(142+Goal_TILED_OFFSET_X, 92+Goal_TILED_OFFSET_Y);
-        new Goal(285+Goal_TILED_OFFSET_X, 210+Goal_TILED_OFFSET_Y);
+        new Item(180+Item_TILED_OFFSET_X, 280+Item_TILED_OFFSET_Y, R.Batteries);
+        // TODO: Out of Memory! - new Door(188+Door_TILED_OFFSET_X, 305+Door_TILED_OFFSET_Y, false, R.WatchUI1);
+        // TODO: Out of Memory! - new Door(60+Door_TILED_OFFSET_X, 305+Door_TILED_OFFSET_Y, false, R.WatchUI1);
     }
 }
 

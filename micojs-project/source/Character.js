@@ -1,5 +1,9 @@
 // Character.js
 
+const Character_TILED_OFFSET_X = 0;
+const Character_TILED_OFFSET_Y = 0;
+const Character_RADIUS = 3;
+
 // DATA.
 
 class Character
@@ -25,7 +29,6 @@ class Character
     }
 }
 
-const CHARACTER_RADIUS = 3;
 let Character_x;
 let Character_y;
 
@@ -171,8 +174,8 @@ function Character__attemptLeft(slide)
 {
     Character_x--;
 
-    const up = getTileProperty(Character_x - CHARACTER_RADIUS, Character_y - CHARACTER_RADIUS, "canPass");
-    const down = getTileProperty(Character_x - CHARACTER_RADIUS, Character_y + CHARACTER_RADIUS, "canPass");
+    const up = getTileProperty(Character_x - Character_RADIUS, Character_y - Character_RADIUS, "canPass");
+    const down = getTileProperty(Character_x - Character_RADIUS, Character_y + Character_RADIUS, "canPass");
 
     if (!(up && down))
     {
@@ -193,8 +196,8 @@ function Character__attemptRight(slide)
 {
     Character_x++;
 
-    const up = getTileProperty(Character_x + CHARACTER_RADIUS, Character_y - CHARACTER_RADIUS, "canPass");
-    const down = getTileProperty(Character_x + CHARACTER_RADIUS, Character_y + CHARACTER_RADIUS, "canPass");
+    const up = getTileProperty(Character_x + Character_RADIUS, Character_y - Character_RADIUS, "canPass");
+    const down = getTileProperty(Character_x + Character_RADIUS, Character_y + Character_RADIUS, "canPass");
 
     if (!(up && down))
     {
@@ -215,8 +218,8 @@ function Character__attemptUp(slide)
 {
     Character_y--;
 
-    const left = getTileProperty(Character_x - CHARACTER_RADIUS, Character_y - CHARACTER_RADIUS, "canPass");
-    const right = getTileProperty(Character_x + CHARACTER_RADIUS, Character_y - CHARACTER_RADIUS, "canPass");
+    const left = getTileProperty(Character_x - Character_RADIUS, Character_y - Character_RADIUS, "canPass");
+    const right = getTileProperty(Character_x + Character_RADIUS, Character_y - Character_RADIUS, "canPass");
 
     if (!(left && right))
     {
@@ -237,8 +240,8 @@ function Character__attemptDown(slide)
 {
     Character_y++;
 
-    const left = getTileProperty(Character_x - CHARACTER_RADIUS, Character_y + CHARACTER_RADIUS, "canPass");
-    const right = getTileProperty(Character_x + CHARACTER_RADIUS, Character_y + CHARACTER_RADIUS, "canPass");
+    const left = getTileProperty(Character_x - Character_RADIUS, Character_y + Character_RADIUS, "canPass");
+    const right = getTileProperty(Character_x + Character_RADIUS, Character_y + Character_RADIUS, "canPass");
 
     if (!(left && right))
     {

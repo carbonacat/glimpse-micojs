@@ -31,7 +31,7 @@ class Door
                 // TODO: Door collision might be more for Door.js.
                 const relY = this.y - Character_y;
 
-                if (abs(relY) < Door_RADIUS_Y + CHARACTER_RADIUS)
+                if (abs(relY) < Door_RADIUS_Y + Character_RADIUS)
                 {
                     if (relY <= 0) Character_y++;
                     else Character_y--;

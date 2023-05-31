@@ -13,7 +13,7 @@ class Goal
     {
         this.x = initX;
         this.y = initY + Goal_DEPTH_OFFSET_Y;
-        this._render = Goal_renderActive; // Temporary!
+        this._render = Goal_renderInactive;
         this._frameIndex = 0;
 
         Scene_add(this);
@@ -43,6 +43,11 @@ class Goal
     interact()
     {
         this._render = (this._render == Goal_renderActive) ? Goal_renderInactive : Goal_renderActive;
+    }
+
+    setState(state)
+    {
+        this._render = state ? Goal_renderActive : Goal_renderInactive;
     }
 }
 
