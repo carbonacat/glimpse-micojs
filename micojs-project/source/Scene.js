@@ -108,6 +108,8 @@ function Scene_update()
             Scene__entities[i - 1] = Scene__entities[i];
             Scene__entities[i] = tmp;
         }
+    CAMERA_X = Scene_cameraX;
+    CAMERA_Y = Scene_cameraY;
 }
 
 function Scene_add(entity) 
@@ -129,8 +131,6 @@ function Scene_render()
         return ;
     }
 
-    CAMERA_X = Scene_cameraX;
-    CAMERA_Y = Scene_cameraY;
     setTileMap(R.LeafMap);
 
     for (let i = 0; i < Scene__entitiesCount; i++)
